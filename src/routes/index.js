@@ -260,7 +260,7 @@ const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword'))
 const AdminDashboard = Loadable(lazy(() => import('../pages/admin/Dashboard')));
 // CATEGORY
 const ADCategory = Loadable(lazy(() => import('../pages/admin/Category/CategoryList')));
-const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/CategoryForm')));
+const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/CategoryAddEdit')));
 
 
 /* ======================================== Branch ======================================== */
@@ -268,13 +268,13 @@ const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/Categ
 const BranchDashboard = Loadable(lazy(() => import('../pages/branch/Dashboard')));
 // CATEGORY
 const BRCategory = Loadable(lazy(() => import('../pages/branch/Category/CategoryList')));
-const BRCategoryForm = Loadable(lazy(() => import('../pages/branch/Category/CategoryForm')));
+const BRCategoryForm = Loadable(lazy(() => import('../pages/branch/Category/CategoryAddEdit')));
 
 /* ======================================== Employee ======================================== */
 const EmployeeDashboard = Loadable(lazy(() => import('../pages/employee/Dashboard')));
 // CATEGORY
 const EMCategory = Loadable(lazy(() => import('../pages/employee/Category/CategoryList')));
-const EMCategoryForm = Loadable(lazy(() => import('../pages/employee/Category/CategoryForm')));
+const EMCategoryForm = Loadable(lazy(() => import('../pages/employee/Category/CategoryAddEdit')));
 
 // MAIN
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));

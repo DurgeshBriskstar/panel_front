@@ -6,7 +6,6 @@ import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 // redux
 import { dispatch } from '../../redux/store';
-import { uploadTempImage } from '../../redux/slices/review';
 //
 import { PLUGINS, FONT_FAMILY, HEADINGS } from './EditorToolbar';
 
@@ -109,22 +108,43 @@ export default function Editor({
         const file = files[0];
         if (file != null) {
             try {
-                dispatch(uploadTempImage(file)).then((res) => {
-                    const response = {
-                        result: [{
-                            url: res.data,
-                            name: file.name,
-                            size: file.size,
-                        }]
-                    }
+                // dispatch(uploadTempImage(file)).then((res) => {
+                //     const response = {
+                //         result: [{
+                //             url: res.data,
+                //             name: file.name,
+                //             size: file.size,
+                //         }]
+                //     }
 
-                    uploadHandler(response);
-                })
+                //     uploadHandler(response);
+                // })
             } catch (err) {
                 uploadHandler(err.toString());
             }
         }
     }
+
+    // function uploadTempImage(data) {
+    //     return async () => {
+    //         try {
+    //             // ===================== Automation with File =====================
+    //             const formData = new FormData();
+    //             formData.append('file', data);
+
+    //             const response = await axios.post('/api/review/template/image', formData, {
+    //                 headers: { 'Content-Type': 'multipart/form-data' },
+    //             });
+    //             // ===================== Automation end =====================
+    //             if (response.success) {
+    //                 return Promise.resolve(response);
+    //             }
+    //             return Promise.reject(response);
+    //         } catch (error) {
+    //             return Promise.reject(error);
+    //         }
+    //     };
+    // }
 
     return (
         <div>

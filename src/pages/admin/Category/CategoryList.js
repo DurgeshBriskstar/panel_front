@@ -15,7 +15,7 @@ import {
     TablePagination,
 } from '@mui/material';
 // routes
-import { PATH_BRANCH } from '../../../routes/paths';
+import { PATH_ADMIN } from '../../../routes/paths';
 // hooks
 import useSettings from '../../../hooks/useSettings';
 import useTable from '../../../hooks/useTable';
@@ -39,13 +39,19 @@ import { TableHeadCustom, TableNoData } from '../../../components/table';
 import { DeleteDialog, StatusDialog } from '../../../components/confirm-dialog';
 import LoadingScreen from '../../../components/LoadingScreen';
 // sections
-import { CategoryTableRow } from '../../../sections/admin/category/list';
+import { CategoryTableRow, CategoryTableToolbar } from '../../../sections/admin/category/list';
 
 // ----------------------------------------------------------------------
 
+// status options
+const STATUS_OPTIONS = [
+    { key: "1", value: "Active" },
+    { key: "0", value: "Inactive" },
+];
+
 // table head
 const TABLE_HEAD = [
-    { id: 'category', label: 'Category', align: 'left' },
+    { id: 'title', label: 'Category', align: 'left' },
     { id: 'status', label: 'Status', align: 'left' },
     { id: '', label: 'Action', align: 'center' },
 ];
@@ -58,6 +64,8 @@ export default function CategoryList() {
     const [tableData, setTableData] = useState([]);
     const [categoryId, setCategoryId] = useState(null);
     const [categoryStatus, setCategoryStatus] = useState(null);
+    const [search, setSearch] = useState('');
+    const [status, setStatus] = useState('all');
     const { categories, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.category);
 
     const {
@@ -86,6 +94,18 @@ export default function CategoryList() {
         setTableData(categories)
     }, [categories]);
 
+    // handle search onSearch event
+    const handleSearch = (search) => {
+        setSearch(search);
+        setPage(0);
+    };
+
+    // handle filter status onFilterStatus event
+    const handleStatus = (event) => {
+        setStatus(event.target.value);
+        setPage(0);
+    };
+
     // handle delete row onDeleteRow event
     const handleDeleteRow = (id) => {
         setCategoryId(id);
@@ -101,7 +121,7 @@ export default function CategoryList() {
 
     // handle edit row onEditRow event
     const handleEditRow = (id) => {
-        navigate(PATH_BRANCH.category.categoryEdit(capitalCase(id)));
+        navigate(PATH_ADMIN.category.categoryEdit(capitalCase(id)));
     };
 
     // handle delete modal
@@ -154,14 +174,14 @@ export default function CategoryList() {
                 <HeaderBreadcrumbs
                     heading="Categories"
                     links={[
-                        { name: 'Dashboard', href: PATH_BRANCH.root },
+                        { name: 'Dashboard', href: PATH_ADMIN.root },
                         { name: 'Categories' },
                     ]}
                     action={
                         <Button
                             variant="contained"
                             component={RouterLink}
-                            to={PATH_BRANCH.category.new}
+                            to={PATH_ADMIN.category.new}
                             startIcon={<Iconify icon={'eva:plus-fill'} />}
                         >
                             Add Category
@@ -171,6 +191,13 @@ export default function CategoryList() {
 
                 <Card>
                     <CardHeader title="All Categories" sx={{ mb: 3 }} />
+                    <CategoryTableToolbar
+                        search={search}
+                        filterStatus={status}
+                        onSearch={handleSearch}
+                        onFilterStatus={handleStatus}
+                        optionsStatus={STATUS_OPTIONS}
+                    />
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 1000, position: 'relative' }}>
                             <Table size={'medium'}>

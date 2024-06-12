@@ -8,20 +8,21 @@ import Iconify from '../../../../components/Iconify';
 const INPUT_WIDTH = 160;
 
 export default function CategoryTableToolbar({
-    optionsService,
+    optionsStatus,
     search,
-    filterService,
+    filterStatus,
     onSearch,
-    onFilterService,
+    onFilterStatus,
 }) {
+    console.log("optionsStatus", optionsStatus);
     return (
         <Stack spacing={2} direction={{ xs: 'column', md: 'row' }} sx={{ py: 2.5, px: 3 }}>
             <TextField
                 fullWidth
                 select
                 label="Status"
-                value={filterService}
-                onChange={onFilterService}
+                value={filterStatus}
+                onChange={onFilterStatus}
                 SelectProps={{
                     MenuProps: {
                         sx: { '& .MuiPaper-root': { maxHeight: 260 } },
@@ -32,10 +33,10 @@ export default function CategoryTableToolbar({
                     textTransform: 'capitalize',
                 }}
             >
-                {optionsService.map((option) => (
+                {optionsStatus.map((option) => (
                     <MenuItem
-                        key={option}
-                        value={option}
+                        key={option?.key}
+                        value={option?.key}
                         sx={{
                             mx: 1,
                             my: 0.5,
@@ -44,7 +45,7 @@ export default function CategoryTableToolbar({
                             textTransform: 'capitalize',
                         }}
                     >
-                        {option}
+                        {option?.value}
                     </MenuItem>
                 ))}
             </TextField>

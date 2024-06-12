@@ -31,6 +31,27 @@ export const PATH_AFTER_LOGIN_ADMIN = PATH_ADMIN.dashboard;
 export const PATH_AFTER_LOGIN_BRANCH = PATH_BRANCH.dashboard;
 export const PATH_AFTER_LOGIN_EMPLOYEE = PATH_EMPLOYEE.dashboard;
 
+export const DEFAULT_DATE = new Date(new Date().setFullYear(new Date().getFullYear() - 18));
+export const DEFAULT_COLOR = [
+    '#54D62C', // theme.palette.success.main,
+    '#04297A', // theme.palette.info.darker
+    '#FF4842', // theme.palette.error.main
+    '#FFC107', // theme.palette.warning.main,
+    '#ed7d31', // Orange
+    '#d0a5eb', // Light Purpal
+    '#7030a0', // Dark Purpal
+    '#f4b084', // Peach
+    '#454F5B', // theme.palette.grey[700]
+];
+export const DEFAULT_GENDER = [
+    { id: '1', name: 'Male', value: 'male' },
+    { id: '2', name: 'Female', value: 'female' },
+    { id: '3', name: 'Other', value: 'other' },
+];
+export const DEFAULT_CURRENCY = 'CHF';
+export const DATE_FORMAT = 'MM/dd/yyyy';
+export const TIME_FORMAT = 'hh:mm a';
+
 
 // SETTINGS
 // Please remove `localStorage` when you set settings.

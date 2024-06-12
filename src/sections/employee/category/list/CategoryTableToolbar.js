@@ -7,15 +7,7 @@ import Iconify from '../../../../components/Iconify';
 
 const INPUT_WIDTH = 160;
 
-ServiceTableToolbar.propTypes = {
-    search: PropTypes.string,
-    filterService: PropTypes.string,
-    onSearch: PropTypes.func,
-    onFilterService: PropTypes.func,
-    optionsService: PropTypes.arrayOf(PropTypes.string),
-};
-
-export default function ServiceTableToolbar({
+export default function CategoryTableToolbar({
     optionsService,
     search,
     filterService,

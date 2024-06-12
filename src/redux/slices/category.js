@@ -116,10 +116,9 @@ export function getCategories(data) {
     try {
       dispatch(slice.actions.startLoading());
       const response = await axios.post('/api/categories/get', data);
-      console.log("response", response);
       if (response.status) {
         dispatch(slice.actions.getCategoriesSuccess(response.data));
-        dispatch(slice.actions.getCategoriesCount(response.count));
+        dispatch(slice.actions.getCategoriesCount(response.data?.length));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());

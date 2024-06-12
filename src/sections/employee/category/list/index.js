@@ -1,2 +1,2 @@
-export { default as ServiceTableRow } from './ServiceTableRow';
-export { default as ServiceTableToolbar } from './ServiceTableToolbar';
+export { default as CategoryTableRow } from './CategoryTableRow';
+export { default as CategoryTableToolbar } from './CategoryTableToolbar';
