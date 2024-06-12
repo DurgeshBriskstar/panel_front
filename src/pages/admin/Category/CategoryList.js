@@ -22,13 +22,13 @@ import useTable from '../../../hooks/useTable';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
 import {
-    getServices,
-    serviceModel,
-    deleteService,
+    getCategories,
+    deleteCategory,
     closeDeleteModal,
     closeStatusModal,
-    updateServiceStatus,
-} from '../../../redux/slices/service';
+    updateCategoryStatus,
+    categoryModel,
+} from '../../../redux/slices/category';
 // components
 import Page from '../../../components/Page';
 import Iconify from '../../../components/Iconify';
@@ -45,13 +45,8 @@ import { CategoryTableRow } from '../../../sections/admin/category/list';
 
 // table head
 const TABLE_HEAD = [
-    { id: 'name', label: 'Service', align: 'left' },
-    { id: 'days', label: 'Days', align: 'left' },
-    { id: 'duration', label: 'Duration', align: 'left' },
-    { id: 'startTime', label: 'Service From', align: 'left' },
-    { id: 'endTime', label: 'Service To', align: 'left' },
-    { id: 'price', label: 'Price', align: 'left' },
-    { id: 'disabled', label: 'Status', align: 'left' },
+    { id: 'category', label: 'Category', align: 'left' },
+    { id: 'status', label: 'Status', align: 'left' },
     { id: '', label: 'Action', align: 'center' },
 ];
 
@@ -61,10 +56,9 @@ export default function CategoryList() {
     const { themeStretch } = useSettings();
     const { enqueueSnackbar } = useSnackbar();
     const [tableData, setTableData] = useState([]);
-    const [serviceId, setServiceId] = useState(null);
-    const [serviceStatus, setServiceStatus] = useState(null);
-    // const [ isLoading, setLoading ] = useState(false);
-    const { services, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.service);
+    const [categoryId, setCategoryId] = useState(null);
+    const [categoryStatus, setCategoryStatus] = useState(null);
+    const { categories, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.category);
 
     const {
         page,
@@ -78,31 +72,31 @@ export default function CategoryList() {
     } = useTable({ defaultOrderBy: 'createdAt' });
 
     useEffect(() => {
-        dispatch(getServices({
+        dispatch(getCategories({
             "page": page,
             "order": order,
             "search": "",
             "orderBy": orderBy,
             "rowsPerPage": rowsPerPage,
-            "filterStatus": "all",
+            "status": "",
         }));
     }, [dispatch, page, order, orderBy, rowsPerPage, count]);
 
     useEffect(() => {
-        setTableData(services)
-    }, [services]);
+        setTableData(categories)
+    }, [categories]);
 
     // handle delete row onDeleteRow event
     const handleDeleteRow = (id) => {
-        setServiceId(id);
-        dispatch(serviceModel(id, "delete"));
+        setCategoryId(id);
+        dispatch(categoryModel(id, "delete"));
     };
 
     // handle update status onStatusUpdate event
     const handleUpdateStatus = (id, status) => {
-        setServiceId(id);
-        setServiceStatus(status);
-        dispatch(serviceModel(id, "status"));
+        setCategoryId(id);
+        setCategoryStatus(status);
+        dispatch(categoryModel(id, "status"));
     };
 
     // handle edit row onEditRow event
@@ -123,40 +117,26 @@ export default function CategoryList() {
     // confirm delete onConfirm event
     const confirmDelete = () => {
         // setLoading(true);
-        dispatch(deleteService(serviceId)).then(originalPromiseResult => {
+        dispatch(deleteCategory(categoryId)).then(originalPromiseResult => {
             if (originalPromiseResult.success && page > 0) {
                 const record = (count - rowsPerPage * page);
                 if (record === 1) {
                     setPage(page - 1);
                 }
             }
-            // setLoading(false);
-            // dispatch(getServices({
-            //     "page": page,    
-            //     "order": order,
-            //     "search": "",
-            //     "orderBy": orderBy,
-            //     "rowsPerPage": rowsPerPage,
-            //     "filterStatus": "all",
-            // }));
             enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
             handleDeleteModal();
         }).catch(rejectedValueOrSerializedError => {
-            // setLoading(false);
             enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
             handleDeleteModal();
         });
     };
 
-    // confirm status onConfirm event
     const confirmStatus = () => {
-        // setLoading(true);
-        dispatch(updateServiceStatus({ id: serviceId, isActive: serviceStatus })).then(originalPromiseResult => {
-            //   setLoading(false);
+        dispatch(updateCategoryStatus({ id: categoryId, isActive: categoryStatus })).then(originalPromiseResult => {
             enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
             handleStatusModal();
         }).catch(rejectedValueOrSerializedError => {
-            //   setLoading(false);
             enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
             handleStatusModal();
         });
@@ -169,13 +149,13 @@ export default function CategoryList() {
     }
 
     return (
-        <Page title="Service: List">
+        <Page title="Category: List">
             <Container maxWidth={themeStretch ? false : 'x1'}>
                 <HeaderBreadcrumbs
-                    heading="Services"
+                    heading="Categories"
                     links={[
                         { name: 'Dashboard', href: PATH_BRANCH.root },
-                        { name: 'Services' },
+                        { name: 'Categories' },
                     ]}
                     action={
                         <Button
@@ -184,7 +164,7 @@ export default function CategoryList() {
                             to={PATH_BRANCH.category.new}
                             startIcon={<Iconify icon={'eva:plus-fill'} />}
                         >
-                            Add Service
+                            Add Category
                         </Button>
                     }
                 />
@@ -231,11 +211,11 @@ export default function CategoryList() {
                     </Box>
 
                     <DialogAnimate open={isDeleteModal} width="sm">
-                        <DeleteDialog title={'Delete Service'} onConfirm={confirmDelete} onClose={handleDeleteModal} loading={isLoading} />
+                        <DeleteDialog title={'Delete Category'} onConfirm={confirmDelete} onClose={handleDeleteModal} loading={isLoading} />
                     </DialogAnimate>
 
                     <DialogAnimate open={isStatusModal} width="sm">
-                        <StatusDialog title={'Update Service Status'} onConfirm={confirmStatus} onClose={handleStatusModal} loading={isLoading} />
+                        <StatusDialog title={'Update Category Status'} onConfirm={confirmStatus} onClose={handleStatusModal} loading={isLoading} />
                     </DialogAnimate>
                 </Card>
             </Container>

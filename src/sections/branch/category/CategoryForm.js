@@ -33,7 +33,7 @@ import { DEFAULT_COLOR, DEFAULT_GENDER, SERVICE_HOURS, SERVICE_MINS } from '../.
 import { SERVICE_VALIDATION_RULES } from '../../../validation';
 // redux
 import { useDispatch, useSelector } from '../../../redux/store';
-import { createService, updateService } from '../../../redux/slices/service';
+import { createService, updateService } from '../../../redux/slices/category';
 // routes
 import { PATH_AGENCY } from '../../../routes/paths';
 // hooks

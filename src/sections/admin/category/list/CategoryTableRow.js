@@ -19,7 +19,7 @@ import { TableMoreMenu } from '../../../../components/table';
 export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow, onUpdateStatus }) {
     const theme = useTheme();
 
-    const { name, amountWithCurrency, startTime, endTime, isActive, image, imageUrl, days, duration } = row;
+    const { title, status, image } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -34,32 +34,23 @@ export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow
     return (
         <TableRow hover selected={selected}>
             <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar alt={name} color={createAvatar(name).color} sx={{ mr: 2 }} src={image ? imageUrl : ''}>
-                    {createAvatar(name).name}
+                <Avatar alt={title} color={createAvatar(title).color} sx={{ mr: 2 }} src={image ? image : ''}>
+                    {createAvatar(title).title}
                 </Avatar>
 
                 <Stack>
                     <Typography variant="subtitle2" noWrap>
-                        {name}
+                        {title}
                     </Typography>
                 </Stack>
             </TableCell>
-
-            <TableCell align="left">{days || "-"}</TableCell>
-            <TableCell align="left">{duration || "-"}</TableCell>
-            <TableCell align="left">{fTime(startTime)}</TableCell>
-
-            <TableCell align="left">{fTime(endTime)}</TableCell>
-
-            {/* <TableCell align="left">{DEFAULT_CURRENCY} {fCurrency(price)}</TableCell> */}
-            <TableCell align="left">{amountWithCurrency}</TableCell>
 
             <TableCell align="left">
                 <Label
                     variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                     color={
-                        (isActive === 1 && 'success') ||
-                        (isActive === 0 && 'error')
+                        (status === 1 && 'success') ||
+                        (status === 0 && 'error')
                     }
                     onClick={() => {
                         onUpdateStatus();
@@ -67,7 +58,7 @@ export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow
                     }}
                     sx={{ textTransform: 'capitalize', cursor: 'pointer' }}
                 >
-                    {isActive === 1 ? 'Active' : 'Inactive'}
+                    {status === 1 ? 'Active' : 'Inactive'}
                 </Label>
             </TableCell>
 

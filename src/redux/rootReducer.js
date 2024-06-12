@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 // import { persistReducer } from 'redux-persist';
 // slices
-import serviceReducer from './slices/service';
+import categoryReducer from './slices/category';
 
 // ----------------------------------------------------------------------
 
@@ -12,7 +12,7 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
-    service: serviceReducer,
+    category: categoryReducer,
 });
 
 export { rootPersistConfig, rootReducer };

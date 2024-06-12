@@ -8,8 +8,8 @@ import { dispatch } from '../store';
 
 const initialState = {
   count: 0,
-  services: [],
-  service: null,
+  categories: [],
+  category: null,
   isLoading: false,
   selectedId: null,
   isDeleteModal: false,
@@ -17,7 +17,7 @@ const initialState = {
 };
 
 const slice = createSlice({
-  name: 'service',
+  name: 'category',
   initialState,
   reducers: {
     // START LOADING
@@ -30,52 +30,52 @@ const slice = createSlice({
       state.isLoading = false;
     },
 
-    // GET SERVICES
-    getServicesSuccess(state, action) {
+    // GET CATEGORIES
+    getCategoriesSuccess(state, action) {
       state.isLoading = false;
-      state.services = action.payload;
+      state.categories = action.payload;
     },
 
-    // GET SERVICES COUNT
-    getServicesCount(state, action) {
+    // GET CATEGORIES COUNT
+    getCategoriesCount(state, action) {
       state.isLoading = false;
       state.count = action.payload;
     },
 
-    // GET SERVICE
-    getServiceSuccess(state, action) {
+    // GET CATEGORY
+    getCategorySuccess(state, action) {
       state.isLoading = false;
-      state.service = action.payload;
+      state.category = action.payload;
     },
 
-    // DELETE SERVICE
-    deleteServiceSuccess(state, action) {
+    // DELETE CATEGORY
+    deleteCategorySuccess(state, action) {
       const { id } = action.payload;
-      const deleteService = state.services.filter((_service) => _service.id !== id);
+      const deleteCategory = state.categories.filter((_category) => _category.id !== id);
       state.count -= 1;
-      state.services = deleteService;
+      state.categories = deleteCategory;
       state.isLoading = false;
     },
 
-    // UPDATE SERVICE
-    updateServiceSuccess(state, action) {
-      const service = action.payload;
-      const updateSer = state.services.map((_ser) => {
-        if (_ser.id === service.id) {
-          return service;
+    // UPDATE CATEGORY
+    updateCategorySuccess(state, action) {
+      const category = action.payload;
+      const updateCat = state.categories.map((_cat) => {
+        if (_cat.id === category.id) {
+          return category;
         }
-        return _ser;
+        return _cat;
       });
 
       state.isLoading = false;
-      state.services = updateSer;
+      state.categories = updateCat;
     },
 
     // SELECT SERVICE
-    selectService(state, action) {
+    selectCategory(state, action) {
       const { id, serDeleteModal, serStatusModal } = action.payload;
       state.isDeleteModal = serDeleteModal;
-      state.isOpenEmpStatusModal = serStatusModal;
+      state.isStatusModal = serStatusModal;
       state.selectedId = id;
     },
 
@@ -107,18 +107,19 @@ const slice = createSlice({
 export default slice.reducer;
 
 // Actions
-export const { selectService, openDeleteModal, openStatusModal, closeDeleteModal, closeStatusModal } = slice.actions;
+export const { selectCategory, openDeleteModal, openStatusModal, closeDeleteModal, closeStatusModal } = slice.actions;
 
 // ----------------------------------------------------------------------
 
-export function getServices(data) {
+export function getCategories(data) {
   return async () => {
     try {
       dispatch(slice.actions.startLoading());
-      const response = await axios.post('/api/service/list', data);
-      dispatch(slice.actions.getServicesSuccess(response.data));
-      dispatch(slice.actions.getServicesCount(response.count));
-      if (response.success) {
+      const response = await axios.post('/api/categories/get', data);
+      console.log("response", response);
+      if (response.status) {
+        dispatch(slice.actions.getCategoriesSuccess(response.data));
+        dispatch(slice.actions.getCategoriesCount(response.count));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -132,11 +133,11 @@ export function getServices(data) {
 
 // ----------------------------------------------------------------------
 
-export function getService(id) {
+export function getCategory(id) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(`/api/service/view/${id}`);
+      const response = await axios.get(`/api/categories/get/${id}`);
       dispatch(slice.actions.getServiceSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.resetLoader());
@@ -147,13 +148,14 @@ export function getService(id) {
 
 // ----------------------------------------------------------------------
 
-export function createService(data) {
+export function saveCategory(data) {
   return async () => {
     try {
+      const recordId = data?.id || ''
       dispatch(slice.actions.startLoading());
-      const response = await axios.post('/api/service/add', data);
-      if (response.success) {
-        dispatch(slice.actions.resetLoader());
+      const response = await axios.post(`/api/form/${recordId}`, data);
+      if (response.status) {
+        dispatch(slice.actions.updateCategorySuccess(response.data));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -167,33 +169,13 @@ export function createService(data) {
 
 // ----------------------------------------------------------------------
 
-export function updateService(data) {
-  return async () => {
-    try {
-      dispatch(slice.actions.startLoading());
-      const response = await axios.post('/api/service/update', data);
-      if (response.success) {
-        dispatch(slice.actions.resetLoader());
-        return Promise.resolve(response);
-      }
-      dispatch(slice.actions.resetLoader());
-      return Promise.reject(response);
-    } catch (error) {
-      dispatch(slice.actions.resetLoader());
-      return Promise.reject(error);
-    }
-  };
-}
-
-// ----------------------------------------------------------------------
-
-export function updateServiceStatus(data) {
+export function updateCategoryStatus(data) {
   return async () => {
     try {
       dispatch(slice.actions.startLoading());
       const response = await axios.post('/api/service/status/update', data);
-      if (response.success) {
-        dispatch(slice.actions.updateServiceSuccess(response.data));
+      if (response.status) {
+        dispatch(slice.actions.updateCategorySuccess(response.data));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -207,13 +189,13 @@ export function updateServiceStatus(data) {
 
 // ----------------------------------------------------------------------
 
-export function deleteService(id) {
+export function deleteCategory(id) {
   return async () => {
     try {
       dispatch(slice.actions.startLoading());
-      const response = await axios.delete(`/api/service/delete/${id}`);
-      if (response.success) {
-        dispatch(slice.actions.deleteServiceSuccess({ id }));
+      const response = await axios.delete(`/api/categories/delete/${id}`);
+      if (response.status) {
+        dispatch(slice.actions.deleteCategorySuccess({ id }));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -227,7 +209,7 @@ export function deleteService(id) {
 
 // ----------------------------------------------------------------------
 
-export function serviceModel(Id, action) {
+export function categoryModel(Id, action) {
   return async () => {
     if (action === 'status') {
       dispatch(
@@ -245,22 +227,6 @@ export function serviceModel(Id, action) {
         })
       );
       dispatch(slice.actions.openDeleteModal());
-    }
-  };
-}
-
-export function getServicePrice(data) {
-  return async () => {
-    try {
-      dispatch(slice.actions.startLoading());
-      const response = await axios.post(`/api/service/getServicePrice`, data);
-      if (response.success) {
-        return Promise.resolve(response);
-      }
-      return Promise.reject(response);
-    } catch (error) {
-      dispatch(slice.actions.resetLoader());
-      return Promise.reject(error);
     }
   };
 }
