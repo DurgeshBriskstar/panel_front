@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import RtlLayout from "./components/RtlLayout";
+import ScrollToTop from "./components/ScrollToTop";
+import ThemeColorPresets from "./components/ThemeColorPresets";
+import ThemeLocalization from "./components/ThemeLocalization";
+import MainRouter from "./routes";
+import ThemeProvider from "./theme";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <ThemeColorPresets>
+        <ThemeLocalization>
+          <RtlLayout>
+            <ScrollToTop />
+            <MainRouter />
+          </RtlLayout>
+        </ThemeLocalization>
+      </ThemeColorPresets>
+    </ThemeProvider>
   );
 }
 
