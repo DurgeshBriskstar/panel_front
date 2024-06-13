@@ -72,6 +72,7 @@ export default function LoginForm() {
         try {
             await login(data.email, data.password, data.mixPanel).then(originalPromiseResult => {
                 setLoading(false);
+                console.log("originalPromiseResult", originalPromiseResult);
                 enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
             }).catch(rejectedValueOrSerializedError => {
                 setLoading(false);

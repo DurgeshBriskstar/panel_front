@@ -13,24 +13,24 @@ import useAuth from '../hooks/useAuth';
 const Page = forwardRef(({ children, title = '', meta, ...other }, ref) => {
     const { isAuthenticated } = useAuth();
     const tagManagerArgs = {
-        gtmId: 'GTM-TVFH9CN',
+        gtmId: 'GTM-PANEL',
         dataLayer: {
-            userProject: 'Onestop Booking',
-            page: {title}
+            userProject: 'Panel',
+            page: { title }
         },
         dataLayerName: 'PageDataLayer'
     }
 
     useEffect(() => {
-        if(!isAuthenticated) {
+        if (!isAuthenticated) {
             TagManager.initialize(tagManagerArgs)
         }
-    },[title, isAuthenticated]);
+    }, [title, isAuthenticated]);
 
     return (
         <>
             <Helmet>
-                <title>{`${title} | Onestop Booking`}</title>
+                <title>{`${title} | Panel`}</title>
                 {meta}
             </Helmet>
 

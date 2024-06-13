@@ -14,7 +14,6 @@ export default function CategoryTableToolbar({
     onSearch,
     onFilterStatus,
 }) {
-    console.log("optionsStatus", optionsStatus);
     return (
         <Stack spacing={2} direction={{ xs: 'column', md: 'row' }} sx={{ py: 2.5, px: 3 }}>
             <TextField

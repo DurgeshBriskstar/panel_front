@@ -24,8 +24,6 @@ export default function SessionDialog() {
                 <Button
                     variant="contained"
                     onClick={onLoad}
-                    // component={RouterLink} 
-                    // to={PATH_AUTH.login}
                 >
                     Sign In
                 </Button>

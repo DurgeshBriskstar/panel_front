@@ -7,6 +7,7 @@ import useAuth from '../hooks/useAuth';
 import { PATH_AUTH } from '../routes/paths';
 // pages
 import Login from '../pages/auth/Login';
+import LoadingScreen from 'src/components/LoadingScreen';
 
 // ----------------------------------------------------------------------
 
@@ -15,21 +16,26 @@ AuthGuard.propTypes = {
 };
 
 export default function AuthGuard({ children }) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isInitialized } = useAuth();
     const { pathname } = useLocation();
     const [requestedLocation, setRequestedLocation] = useState(null);
 
+    // is not initialized false
+    if (!isInitialized) {
+        return <LoadingScreen />;
+    }
+
     // is not authenticated false
     if (!isAuthenticated) {
-        if (!sessionStorage.getItem('accessToken')) {
+        if (!localStorage.getItem('accessToken')) {
             return <Navigate to={PATH_AUTH.root} />;
         }
         if (pathname !== requestedLocation) {
             setRequestedLocation(pathname);
         }
-        console.log("not authenticated: from auth guard");
         return <Login />;
     }
+
     // is requested location true & pathname is not equal to requested location
     if (requestedLocation && pathname !== requestedLocation) {
         setRequestedLocation(null);

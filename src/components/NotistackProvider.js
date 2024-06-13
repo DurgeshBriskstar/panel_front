@@ -32,7 +32,7 @@ function SnackbarStyles() {
                             backgroundColor: theme.palette.background.paper,
                         },
                         [theme.breakpoints.up('md')]: {
-                        minWidth: 240,
+                            minWidth: 240,
                         },
                     },
                     '& .SnackbarItem-message': {
@@ -62,7 +62,7 @@ export default function NotistackProvider({ children }) {
     const onClose = (key) => () => {
         notistackRef.current.closeSnackbar(key);
     };
-    
+
     return (
         <>
             <SnackbarStyles />

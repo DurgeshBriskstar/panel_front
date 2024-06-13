@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // @mui
 import { Box, Divider, Typography, Stack, MenuItem, Button, IconButton, alpha } from '@mui/material';
 // components
@@ -7,43 +7,47 @@ import MenuPopover from '../../../components/MenuPopover';
 import LoadingScreen from '../../../components/LoadingScreen';
 import { MyAvatar } from 'src/components/images';
 import useAuth from 'src/hooks/useAuth';
+import useIsMountedRef from 'src/hooks/useIsMountedRef';
+import { useSnackbar } from 'notistack';
+import { PATH_AUTH } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
+    const isMountedRef = useIsMountedRef();
+    const { enqueueSnackbar } = useSnackbar();
     const [open, setOpen] = useState(null);
     const [isLoading, setLoading] = useState(false);
-    const { user } = useAuth();
 
     // handle open onClick event
     const handleOpen = (event) => {
         setOpen(event.currentTarget);
     };
 
-    // handle close onClick event
     const handleClose = () => {
         setOpen(null);
     };
 
-    // handle logout onClick event
     const handleLogout = async () => {
         setLoading(true);
-        // try {
-        //     await logout().then(originalPromiseResult => {
-        //         setLoading(false);
-        //         navigate(PATH_AUTH.root, { replace: true });
-        //         if (isMountedRef.current) {
-        //             handleClose();
-        //         }
-        //         enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
-        //     }).catch(rejectedValueOrSerializedError => {
-        //         setLoading(false);
-        //         enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
-        //     });
-        // } catch (error) {
-        //     setLoading(false);
-        //     enqueueSnackbar('Unable to logout!', { variant: 'error' });
-        // }
+        try {
+            await logout().then(originalPromiseResult => {
+                setLoading(false);
+                navigate(PATH_AUTH.root, { replace: true });
+                if (isMountedRef.current) {
+                    handleClose();
+                }
+                enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+            }).catch(rejectedValueOrSerializedError => {
+                setLoading(false);
+                enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+            });
+        } catch (error) {
+            setLoading(false);
+            enqueueSnackbar('Unable to logout!', { variant: 'error' });
+        }
     };
 
     return (

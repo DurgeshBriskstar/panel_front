@@ -94,49 +94,40 @@ export default function CategoryList() {
         setTableData(categories)
     }, [categories]);
 
-    // handle search onSearch event
     const handleSearch = (search) => {
         setSearch(search);
         setPage(0);
     };
 
-    // handle filter status onFilterStatus event
     const handleStatus = (event) => {
         setStatus(event.target.value);
         setPage(0);
     };
 
-    // handle delete row onDeleteRow event
     const handleDeleteRow = (id) => {
         setCategoryId(id);
         dispatch(categoryModel(id, "delete"));
     };
 
-    // handle update status onStatusUpdate event
     const handleUpdateStatus = (id, status) => {
         setCategoryId(id);
         setCategoryStatus(status);
         dispatch(categoryModel(id, "status"));
     };
 
-    // handle edit row onEditRow event
     const handleEditRow = (id) => {
         navigate(PATH_ADMIN.category.categoryEdit(capitalCase(id)));
     };
 
-    // handle delete modal
     const handleDeleteModal = () => {
         dispatch(closeDeleteModal());
     };
 
-    // handle status modal
     const handleStatusModal = () => {
         dispatch(closeStatusModal());
     };
 
-    // confirm delete onConfirm event
     const confirmDelete = () => {
-        // setLoading(true);
         dispatch(deleteCategory(categoryId)).then(originalPromiseResult => {
             if (originalPromiseResult.success && page > 0) {
                 const record = (count - rowsPerPage * page);
