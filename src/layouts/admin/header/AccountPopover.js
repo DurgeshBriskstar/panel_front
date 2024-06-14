@@ -10,6 +10,7 @@ import useAuth from 'src/hooks/useAuth';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { useSnackbar } from 'notistack';
 import { PATH_ADMIN, PATH_AUTH } from 'src/routes/paths';
+import Iconify from 'src/components/Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -99,6 +100,7 @@ export default function AccountPopover() {
 
                 <Stack sx={{ p: 1 }}>
                     <MenuItem key={'Setting'} to={PATH_ADMIN.setting.account} component={RouterLink} onClick={handleClose}>
+                        <Iconify width={24} height={24} sx={{ mr: 1 }} icon='eos-icons:rotating-gear' />
                         {'Setting'}
                     </MenuItem>
                 </Stack>
@@ -106,6 +108,7 @@ export default function AccountPopover() {
                 <Divider sx={{ borderStyle: 'dashed' }} />
 
                 <MenuItem onClick={handleLogout} sx={{ m: 1 }}>
+                    <Iconify width={24} height={24} sx={{ mr: 1 }} icon='line-md:logout' />
                     {isLoading ? <LoadingScreen /> : 'Sign Out'}
                 </MenuItem>
             </MenuPopover>

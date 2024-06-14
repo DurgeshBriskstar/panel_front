@@ -290,7 +290,7 @@ export default function CategoryForm({ isEdit, onBack, currentService }) {
                     width: '100%',
                   }}
                 >
-                  Service Information
+                  Category Information
                 </Typography>
 
                 <Box
@@ -301,7 +301,7 @@ export default function CategoryForm({ isEdit, onBack, currentService }) {
                     gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(1, 1fr)' },
                   }}
                 >
-                  <RHFTextField name="name" label="Service Name" inputProps={{ maxLength: 50 }} autoFocus />
+                  <RHFTextField name="name" label="Category Name" inputProps={{ maxLength: 50 }} autoFocus />
                 </Box>
               </Stack >
             </Box >

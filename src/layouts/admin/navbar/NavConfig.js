@@ -17,11 +17,11 @@ const navConfig = [
     {
         subheader: '',
         items: [
-            { title: 'dashboard', path: PATH_ADMIN.dashboard, icon: getIcon('flat-color-icons:doughnut-chart') },
+            { title: 'dashboard', path: PATH_ADMIN.dashboard, icon: getIcon('mdi:monitor-dashboard') },
             {
                 title: 'category',
                 path: PATH_ADMIN.category.root,
-                icon: getIcon('flat-color-icons:news'),
+                icon: getIcon('game-icons:newspaper'),
                 children: [
                     { title: 'Categories', path: PATH_ADMIN.category.list },
                     { title: 'Add New', path: PATH_ADMIN.category.new },

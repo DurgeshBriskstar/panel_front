@@ -186,7 +186,6 @@ function AuthProvider({ children }) {
                                 user,
                             },
                         });
-                        console.log("response", response);
                         return Promise.resolve(response);
                     }
                     return Promise.reject(response);
