@@ -136,9 +136,10 @@ export function getCategory(id) {
   return async () => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get(`/api/categories/get/${id}`);
-      dispatch(slice.actions.getServiceSuccess(response.data));
+      const response = await axios.post(`/api/categories/get/${id}`);
+      dispatch(slice.actions.getCategorySuccess(response.data[0]));
     } catch (error) {
+      console.log(error.message);
       dispatch(slice.actions.resetLoader());
       dispatch(slice.actions.hasError(error));
     }

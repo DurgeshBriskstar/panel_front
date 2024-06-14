@@ -13,7 +13,7 @@ import AuthGuard from '../guards/AuthGuard';
 import { PATH_AFTER_LOGIN_ADMIN, PATH_AFTER_LOGIN_BRANCH, PATH_AFTER_LOGIN_EMPLOYEE } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
-
+import { PATH_ADMIN } from './paths';
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) => {
@@ -71,6 +71,20 @@ export default function MainRouter() {
                 {
                     path: 'dashboard',
                     element: <AdminDashboard />
+                },
+                {
+                    path: 'setting',
+                    children: [
+                        { element: <Navigate to="/admin/setting/update/account-setting" replace />, index: true },
+                        {
+                            path: 'update',
+                            element: <AdminSetting />
+                        },
+                        {
+                            path: 'update/:tabKey',
+                            element: <AdminSetting />
+                        },
+                    ],
                 },
                 {
                     path: 'categories',
@@ -255,6 +269,9 @@ const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword'))
 /* ======================================== Admin ======================================== */
 // DASHBOARD
 const AdminDashboard = Loadable(lazy(() => import('../pages/admin/Dashboard')));
+// ACCOUNT
+const AdminSetting = Loadable(lazy(() => import('../pages/admin/setting/Setting')));
+
 // CATEGORY
 const ADCategory = Loadable(lazy(() => import('../pages/admin/Category/CategoryList')));
 const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/CategoryAddEdit')));

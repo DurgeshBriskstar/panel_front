@@ -28,10 +28,11 @@ export const PATH_PAGE = {
 export const PATH_ADMIN = {
     root: ROOTS_ADMIN,
     dashboard: path(ROOTS_ADMIN, '/dashboard'),
-    // setting: {
-    //     root: path(ROOTS_ADMIN, '/setting'),
-    //     account: path(ROOTS_ADMIN, '/setting/account'),
-    // },
+    setting: {
+        root: path(ROOTS_ADMIN, '/setting'),
+        account: path(ROOTS_ADMIN, '/setting/update/account-setting'),
+        settingView: (tabKey) => path(ROOTS_ADMIN, `/setting/update/${tabKey}`),
+    },
     category: {
         root: path(ROOTS_ADMIN, '/categories'),
         list: path(ROOTS_ADMIN, '/categories/list'),

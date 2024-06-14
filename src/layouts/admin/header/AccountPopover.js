@@ -9,7 +9,7 @@ import { MyAvatar } from 'src/components/images';
 import useAuth from 'src/hooks/useAuth';
 import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { useSnackbar } from 'notistack';
-import { PATH_AUTH } from 'src/routes/paths';
+import { PATH_ADMIN, PATH_AUTH } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -98,8 +98,8 @@ export default function AccountPopover() {
                 <Divider sx={{ borderStyle: 'dashed' }} />
 
                 <Stack sx={{ p: 1 }}>
-                    <MenuItem key={'Account'} to={'PATH_ADMIN.setting.account'} component={RouterLink} onClick={handleClose}>
-                        {'Account'}
+                    <MenuItem key={'Setting'} to={PATH_ADMIN.setting.account} component={RouterLink} onClick={handleClose}>
+                        {'Setting'}
                     </MenuItem>
                 </Stack>
 

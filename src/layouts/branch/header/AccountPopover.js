@@ -7,6 +7,7 @@ import MenuPopover from '../../../components/MenuPopover';
 import LoadingScreen from '../../../components/LoadingScreen';
 import { MyAvatar } from 'src/components/images';
 import useAuth from 'src/hooks/useAuth';
+import { PATH_BRANCH } from 'src/routes/paths';
 
 // ----------------------------------------------------------------------
 
@@ -94,7 +95,7 @@ export default function AccountPopover() {
                 <Divider sx={{ borderStyle: 'dashed' }} />
 
                 <Stack sx={{ p: 1 }}>
-                    <MenuItem key={'Account'} to={'PATH_ADMIN.setting.account'} component={RouterLink} onClick={handleClose}>
+                    <MenuItem key={'Account'} to={PATH_BRANCH.setting.account} component={RouterLink} onClick={handleClose}>
                         {'Account'}
                     </MenuItem>
                 </Stack>

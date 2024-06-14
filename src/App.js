@@ -10,6 +10,7 @@ import Settings from "./components/settings";
 import MainRouter from "./routes";
 import ThemeProvider from "./theme";
 import { ProgressBarStyle } from "./components/ProgressBar";
+import { SettingsProvider } from "./contexts/SettingsContext";
 
 function App() {
   const [isLogout, setLogout] = useState(false);
@@ -31,25 +32,27 @@ function App() {
   }, [])
 
   return (
-    <ThemeProvider>
-      <ThemeColorPresets>
-        <ThemeLocalization>
-          <RtlLayout>
-            <NotistackProvider>
-              <MotionLazyContainer>
-                <ProgressBarStyle />
-                {/* <Settings /> */}
-                <ScrollToTop />
-                <MainRouter />
-              </MotionLazyContainer>
-            </NotistackProvider>
-          </RtlLayout>
-          <DialogAnimate open={isLogout} width="xs">
-            <SessionDialog />
-          </DialogAnimate>
-        </ThemeLocalization>
-      </ThemeColorPresets>
-    </ThemeProvider>
+    <SettingsProvider>
+      <ThemeProvider>
+        <ThemeColorPresets>
+          <ThemeLocalization>
+            <RtlLayout>
+              <NotistackProvider>
+                <MotionLazyContainer>
+                  <ProgressBarStyle />
+                  <Settings />
+                  <ScrollToTop />
+                  <MainRouter />
+                </MotionLazyContainer>
+              </NotistackProvider>
+            </RtlLayout>
+            <DialogAnimate open={isLogout} width="xs">
+              <SessionDialog />
+            </DialogAnimate>
+          </ThemeLocalization>
+        </ThemeColorPresets>
+      </ThemeProvider>
+    </SettingsProvider>
   );
 }
 

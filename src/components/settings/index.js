@@ -61,15 +61,15 @@ export default function Settings() {
   const varSidebar =
     themeDirection !== 'rtl'
       ? varFade({
-          distance: NAVBAR.BASE_WIDTH,
-          durationIn: 0.32,
-          durationOut: 0.32,
-        }).inRight
+        distance: NAVBAR.BASE_WIDTH,
+        durationIn: 0.32,
+        durationOut: 0.32,
+      }).inRight
       : varFade({
-          distance: NAVBAR.BASE_WIDTH,
-          durationIn: 0.32,
-          durationOut: 0.32,
-        }).inLeft;
+        distance: NAVBAR.BASE_WIDTH,
+        durationIn: 0.32,
+        durationOut: 0.32,
+      }).inLeft;
 
   useEffect(() => {
     if (open) {

@@ -226,6 +226,13 @@ export default function CategoryForm({ isEdit, onBack, currentService }) {
     [setValue]
   );
 
+  const handleRemove = useCallback(
+    () => {
+      setValue('image', null);
+    },
+    [setValue]
+  );
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -241,6 +248,7 @@ export default function CategoryForm({ isEdit, onBack, currentService }) {
                 accept="image/png, image/jpeg, image/jpg"
                 maxSize={3000000}
                 onDrop={handleDrop}
+                onRemove={handleRemove}
                 helperText={
                   <Typography
                     variant="caption"

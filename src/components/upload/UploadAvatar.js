@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import isString from 'lodash/isString';
 import { useDropzone } from 'react-dropzone';
 // @mui
-import { Typography } from '@mui/material';
+import { Box, IconButton, Tooltip, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 //
 import { Image } from '../images';
@@ -26,7 +26,6 @@ const DropZoneStyle = styled('div')({
     height: '100%',
     outline: 'none',
     display: 'flex',
-    overflow: 'hidden',
     borderRadius: '50%',
     position: 'relative',
     alignItems: 'center',
@@ -36,6 +35,7 @@ const DropZoneStyle = styled('div')({
         cursor: 'pointer',
         '& .placeholder': {
             zIndex: 9,
+            borderRadius: '50%',
         },
     },
 });
@@ -52,6 +52,7 @@ const PlaceholderStyle = styled('div')(({ theme }) => ({
         easing: theme.transitions.easing.easeInOut,
         duration: theme.transitions.duration.shorter,
     }),
+    borderRadius: '50%',
     '&:hover': { opacity: 0.72 },
 }));
 
@@ -60,16 +61,17 @@ const PlaceholderStyle = styled('div')(({ theme }) => ({
 UploadAvatar.propTypes = {
     error: PropTypes.bool,
     file: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    onRemove: PropTypes.func,
     helperText: PropTypes.node,
     sx: PropTypes.object,
 };
 
-export default function UploadAvatar({ error, file, helperText, sx, ...other }) {
+export default function UploadAvatar({ error, file, onRemove, helperText, sx, ...other }) {
     const { getRootProps, getInputProps, isDragActive, isDragReject, fileRejections } = useDropzone({
         multiple: false,
         ...other,
     });
-    
+
     return (
         <>
             <RootStyle
@@ -88,7 +90,32 @@ export default function UploadAvatar({ error, file, helperText, sx, ...other }) 
                 >
                     <input {...getInputProps()} />
 
-                    {file && <Image alt="avatar" src={isString(file) ? file : file.preview} sx={{ zIndex: 8 }} />}
+                    {file &&
+                        <Box>
+                            <Image alt="avatar" src={isString(file) ? file : file.preview} sx={{ width: '100%', height: '100%', zIndex: 8, borderRadius: '50%', }} />
+                            <Tooltip title="Remove">
+                                <IconButton
+                                    color="primary"
+                                    aria-label="remove"
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        onRemove();
+                                    }}
+                                    sx={{
+                                        p: 0,
+                                        position: 'absolute',
+                                        top: -8,
+                                        right: -8,
+                                        bgcolor: 'background.paper',
+                                        zIndex: 10,
+                                        '&:hover': { bgcolor: 'common.white', color: 'error.main' },
+                                    }}
+                                >
+                                    <Iconify icon={'typcn:delete'} sx={{ height: '35px', width: '35px', color: 'red' }} />
+                                </IconButton>
+                            </Tooltip>
+                        </Box>
+                    }
 
                     <PlaceholderStyle
                         className="placeholder"
