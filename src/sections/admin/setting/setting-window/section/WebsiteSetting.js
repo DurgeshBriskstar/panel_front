@@ -1,8 +1,6 @@
 import { capitalCase } from 'change-case';
 // @mui
 import { Container, Tab, Box, Tabs } from '@mui/material';
-// routes
-import { PATH_ADMIN } from 'src/routes/paths';
 // hooks
 import useTabs from 'src/hooks/useTabs';
 import useSettings from 'src/hooks/useSettings';

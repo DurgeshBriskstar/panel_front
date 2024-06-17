@@ -19,7 +19,7 @@ export function RHFCheckbox({ name, ...other }) {
         <Controller
           name={name}
           control={control}
-          render={({ field }) => <Checkbox {...field} checked={field.value} {...other}/>}
+          render={({ field }) => <Checkbox {...field} checked={field.value} {...other} />}
         />
       }
       {...other}

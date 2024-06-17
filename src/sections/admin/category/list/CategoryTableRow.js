@@ -32,7 +32,7 @@ export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow
     };
 
     return (
-        <TableRow hover selected={selected}>
+        <TableRow hover selected={selected} key={row?._id}>
             <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
                 <Avatar alt={title} color={createAvatar(title).color} sx={{ mr: 2 }} src={image ? image : ''}>
                     {createAvatar(title).title}

@@ -202,11 +202,11 @@ export default function CategoryList() {
                                 <TableBody>
                                     {tableData && tableData.map((row) => (
                                         <CategoryTableRow
-                                            key={row.id}
+                                            key={row._id}
                                             row={row}
-                                            onEditRow={() => handleEditRow(row.id)}
-                                            onDeleteRow={() => handleDeleteRow(row.id)}
-                                            onUpdateStatus={() => handleUpdateStatus(row.id, row.isActive)}
+                                            onEditRow={() => handleEditRow(row._id)}
+                                            onDeleteRow={() => handleDeleteRow(row._id)}
+                                            onUpdateStatus={() => handleUpdateStatus(row._id, row.isActive)}
                                         />
                                     ))}
 

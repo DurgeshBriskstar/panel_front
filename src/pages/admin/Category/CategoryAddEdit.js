@@ -59,7 +59,7 @@ export default function CategoryAddEdit() {
                         </Button>
                     }
                 />
-                <CategoryForm isEdit={isEdit} currentCategory={id && category || {}} onBack={handleBack} />
+                <CategoryForm isEdit={isEdit} onBack={handleBack} category={id ? category : {}} />
             </Container>
         </Page>
     );
