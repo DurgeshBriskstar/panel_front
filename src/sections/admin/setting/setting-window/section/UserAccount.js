@@ -47,6 +47,7 @@ export default function UserAccount() {
           scrollButtons="auto"
           value={currentTab}
           onChange={onChangeTab}
+          sx={{ background: '#edeff1', px: 2, borderRadius: 1 }}
         >
           {ACCOUNT_TABS.map((tab) => (
             <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />

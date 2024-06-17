@@ -43,12 +43,12 @@ function App() {
                   <Settings />
                   <ScrollToTop />
                   <MainRouter />
+                  <DialogAnimate open={isLogout} width="xs">
+                    <SessionDialog />
+                  </DialogAnimate>
                 </MotionLazyContainer>
               </NotistackProvider>
             </RtlLayout>
-            <DialogAnimate open={isLogout} width="xs">
-              <SessionDialog />
-            </DialogAnimate>
           </ThemeLocalization>
         </ThemeColorPresets>
       </ThemeProvider>
