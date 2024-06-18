@@ -51,7 +51,7 @@ const slice = createSlice({
     // DELETE CATEGORY
     deleteCategorySuccess(state, action) {
       const { id } = action.payload;
-      const deleteCategory = state.categories.filter((_category) => _category.id !== id);
+      const deleteCategory = state.categories.filter((_category) => _category._id !== id);
       state.count -= 1;
       state.categories = deleteCategory;
       state.isLoading = false;
@@ -61,7 +61,7 @@ const slice = createSlice({
     updateCategorySuccess(state, action) {
       const category = action.payload;
       const updateCat = state.categories.map((_cat) => {
-        if (_cat.id === category.id) {
+        if (_cat._id === category._id) {
           return category;
         }
         return _cat;
@@ -73,9 +73,9 @@ const slice = createSlice({
 
     // SELECT SERVICE
     selectCategory(state, action) {
-      const { id, serDeleteModal, serStatusModal } = action.payload;
-      state.isDeleteModal = serDeleteModal;
-      state.isStatusModal = serStatusModal;
+      const { id, catDeleteModal, catStatusModal } = action.payload;
+      state.isDeleteModal = catDeleteModal;
+      state.isStatusModal = catStatusModal;
       state.selectedId = id;
     },
 
@@ -173,7 +173,7 @@ export function updateCategoryStatus(data) {
   return async () => {
     try {
       dispatch(slice.actions.startLoading());
-      const response = await axios.post('/api/service/status/update', data);
+      const response = await axios.post(`/api/categories/status/${data?.id}`, data);
       if (response.status) {
         dispatch(slice.actions.updateCategorySuccess(response.data));
         return Promise.resolve(response);
@@ -213,17 +213,17 @@ export function categoryModel(Id, action) {
   return async () => {
     if (action === 'status') {
       dispatch(
-        slice.actions.selectService({
+        slice.actions.selectCategory({
           id: Id,
-          serStatusModal: true,
+          catStatusModal: true,
         })
       );
       dispatch(slice.actions.openStatusModal());
     } else {
       dispatch(
-        slice.actions.selectService({
+        slice.actions.selectCategory({
           id: Id,
-          serDeleteModal: true,
+          catDeleteModal: true,
         })
       );
       dispatch(slice.actions.openDeleteModal());

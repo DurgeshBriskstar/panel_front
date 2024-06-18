@@ -19,7 +19,7 @@ import { TableMoreMenu } from '../../../../components/table';
 export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow, onUpdateStatus }) {
     const theme = useTheme();
 
-    const { title, status, image } = row;
+    const { title, status, image, type } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -41,6 +41,7 @@ export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow
                 <Stack>
                     <Typography variant="subtitle2" noWrap>
                         {title}
+                        {type === 'city' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>City</Label> : ''}
                     </Typography>
                 </Stack>
             </TableCell>

@@ -45,6 +45,7 @@ import { CategoryTableRow, CategoryTableToolbar } from '../../../sections/admin/
 
 // status options
 const STATUS_OPTIONS = [
+    { key: "", value: "All" },
     { key: "1", value: "Active" },
     { key: "0", value: "Inactive" },
 ];
@@ -65,7 +66,7 @@ export default function CategoryList() {
     const [categoryId, setCategoryId] = useState(null);
     const [categoryStatus, setCategoryStatus] = useState(null);
     const [search, setSearch] = useState('');
-    const [status, setStatus] = useState('all');
+    const [status, setStatus] = useState("");
     const { categories, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.category);
 
     const {
@@ -81,14 +82,14 @@ export default function CategoryList() {
 
     useEffect(() => {
         dispatch(getCategories({
-            "page": page,
-            "order": order,
-            "search": "",
-            "orderBy": orderBy,
-            "rowsPerPage": rowsPerPage,
-            "status": "",
+            page,
+            order,
+            search: search,
+            orderBy,
+            rowsPerPage,
+            status: status,
         }));
-    }, [dispatch, page, order, orderBy, rowsPerPage, count]);
+    }, [dispatch, page, order, orderBy, rowsPerPage, status, search]);
 
     useEffect(() => {
         setTableData(categories)
@@ -144,7 +145,7 @@ export default function CategoryList() {
     };
 
     const confirmStatus = () => {
-        dispatch(updateCategoryStatus({ id: categoryId, isActive: categoryStatus })).then(originalPromiseResult => {
+        dispatch(updateCategoryStatus({ id: categoryId, status: categoryStatus })).then(originalPromiseResult => {
             enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
             handleStatusModal();
         }).catch(rejectedValueOrSerializedError => {
@@ -154,10 +155,6 @@ export default function CategoryList() {
     };
 
     const isNotFound = count < 1;
-
-    if (isLoading) {
-        return <LoadingScreen />
-    }
 
     return (
         <Page title="Category: List">
@@ -206,7 +203,7 @@ export default function CategoryList() {
                                             row={row}
                                             onEditRow={() => handleEditRow(row._id)}
                                             onDeleteRow={() => handleDeleteRow(row._id)}
-                                            onUpdateStatus={() => handleUpdateStatus(row._id, row.isActive)}
+                                            onUpdateStatus={() => handleUpdateStatus(row._id, row.status)}
                                         />
                                     ))}
 

@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect } from 'react';
 import * as Yup from 'yup';
 
 import { useSnackbar } from 'notistack';
@@ -22,10 +22,6 @@ import { useDispatch, useSelector } from '../../../redux/store';
 import { saveCategory } from '../../../redux/slices/category';
 // routes
 import { PATH_ADMIN } from '../../../routes/paths';
-// hooks
-import useAuth from '../../../hooks/useAuth';
-// utils
-import { fileToBaseURL } from '../../../utils/base64';
 // components
 import LoadingScreen from '../../../components/LoadingScreen';
 import { FormProvider } from '../../../components/hook-form';
@@ -33,7 +29,23 @@ import SeoInfo from './form-sections/SeoInfo';
 import CategoryInfo from './form-sections/CategoryInfo';
 import Thumbnail from './form-sections/Thumbnail';
 import Preferences from './form-sections/Preferences';
+import { fileToBaseURL } from 'src/utils/base64';
 // ----------------------------------------------------------------------
+
+const getInitialValues = (category) => {
+  return {
+    image: category?.image || "",
+    title: category?.title || "",
+    shortDesc: category?.shortDesc || "",
+    description: category?.description || "",
+    metaKeywords: category?.metaKeywords || [],
+    metaTitle: category?.metaTitle || "",
+    metaDesc: category?.metaDesc || "",
+    isCity: category?.type === "city",
+    active: category?.status === 1,
+    showInNav: category?.showInNav || false,
+  }
+}
 
 export default function CategoryForm({ isEdit, onBack, category }) {
   const theme = useTheme();
@@ -43,75 +55,43 @@ export default function CategoryForm({ isEdit, onBack, category }) {
   const { isLoading } = useSelector((state) => state.category);
 
   const EventSchema = Yup.object().shape({
-    name: Yup.string()
+    title: Yup.string()
       .required(`Category Title is required!`)
   });
 
-  const defaultValues = useMemo(() => {
-    return {
-      image: category?.image || "",
-      title: category?.title || "",
-      shortDesc: category?.shortDesc || "",
-      description: category?.description || "",
-      metaKeywords: category?.metaKeywords || [],
-      metaTitle: category?.metaTitle || "",
-      metaDesc: category?.metaDesc || "",
-      isCity: category?.type === "city",
-      active: category?.status === 1,
-      showInNav: category?.showInNav || false,
-
-    }
-  }, [category]);
-
-  const methods = useForm({
-    resolver: yupResolver(EventSchema),
-    defaultValues,
-  });
-
-  const {
-    reset,
-    control,
-    setValue,
-    watch,
-    handleSubmit,
-  } = methods;
-
+  const methods = useForm({ resolver: yupResolver(EventSchema), defaultValues: getInitialValues(category), });
+  const { reset, control, setValue, watch, handleSubmit, } = methods;
   const values = watch();
 
-  const onSubmit = async (data) => {
-    console.log("data", data);
-    // try {
-    //   let baseURL = category?.image;
-    //   if (typeof data.image === 'object' && data.image) {
-    //     baseURL = await fileToBaseURL(data.image);
-    //   }
-    //   data.image = baseURL;
+  useEffect(() => {
+    if (isEdit && category) {
+      reset(getInitialValues(category));
+    }
+  }, [isEdit, category]);
 
-    //   if (!isEdit) {
-    //     dispatch(saveCategory(data))
-    //       .then((originalPromiseResult) => {
-    //         reset();
-    //         enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
-    //         navigate(PATH_ADMIN.category.list);
-    //       })
-    //       .catch((rejectedValueOrSerializedError) => {
-    //         enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
-    //       });
-    //   } else {
-    //     data.id = category?._id;
-    //     dispatch(saveCategory(data, { autoHideDuration: 5000 }))
-    //       .then((originalPromiseResult) => {
-    //         reset();
-    //         enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
-    //         navigate(PATH_ADMIN.category.list);
-    //       })
-    //       .catch((rejectedValueOrSerializedError) => {
-    //         enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
-    //       });
-    //   }
-    // } catch (error) {
-    //   enqueueSnackbar(error.message, { variant: 'error' });
-    // }
+  const onSubmit = async (data) => {
+    try {
+      if (isEdit) {
+        data.id = category?._id;
+      }
+      let baseURL = category?.image;
+      if (typeof data.image === 'object' && data.image) {
+        baseURL = await fileToBaseURL(data.image);
+      }
+      data.image = baseURL;
+
+      dispatch(saveCategory(data))
+        .then((originalPromiseResult) => {
+          reset();
+          enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+          navigate(PATH_ADMIN.category.list);
+        })
+        .catch((rejectedValueOrSerializedError) => {
+          enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+        });
+    } catch (error) {
+      enqueueSnackbar(error.message, { variant: 'error' });
+    }
   };
 
   if (isLoading) {
