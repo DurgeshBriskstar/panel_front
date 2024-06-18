@@ -53,16 +53,15 @@ export default function CategoryForm({ isEdit, onBack, category }) {
       title: category?.title || "",
       shortDesc: category?.shortDesc || "",
       description: category?.description || "",
-      metaKeywords: [],
+      metaKeywords: category?.metaKeywords || [],
       metaTitle: category?.metaTitle || "",
       metaDesc: category?.metaDesc || "",
-      isCity: category?.isCity || false,
-      active: category?.active || true,
+      isCity: category?.type === "city",
+      active: category?.status === 1,
       showInNav: category?.showInNav || false,
 
     }
   }, [category]);
-
 
   const methods = useForm({
     resolver: yupResolver(EventSchema),

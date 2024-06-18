@@ -153,7 +153,7 @@ export function saveCategory(data) {
     try {
       const recordId = data?.id || ''
       dispatch(slice.actions.startLoading());
-      const response = await axios.post(`/api/form/${recordId}`, data);
+      const response = await axios.post(`/api/categories/form/${recordId}`, data);
       if (response.status) {
         dispatch(slice.actions.updateCategorySuccess(response.data));
         return Promise.resolve(response);
