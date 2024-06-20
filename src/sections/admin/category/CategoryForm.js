@@ -34,7 +34,7 @@ import { fileToBaseURL } from 'src/utils/base64';
 
 const getInitialValues = (category) => {
   return {
-    image: category?.image || "",
+    image: category?.image ? category?.imageUrl : "",
     title: category?.title || "",
     shortDesc: category?.shortDesc || "",
     description: category?.description || "",
@@ -47,6 +47,15 @@ const getInitialValues = (category) => {
   }
 }
 
+Yup.addMethod(Yup.mixed, 'fileSize', function (maxSize, message) {
+  return this.test('fileSize', message, function (value) {
+    const { path, createError } = this;
+    if (!value) return true; // Skip validation if no file is present
+    if (value.size <= maxSize) return true;
+    return createError({ path, message });
+  });
+});
+
 export default function CategoryForm({ isEdit, onBack, category }) {
   const theme = useTheme();
   const navigate = useNavigate();
@@ -56,11 +65,14 @@ export default function CategoryForm({ isEdit, onBack, category }) {
 
   const EventSchema = Yup.object().shape({
     title: Yup.string()
-      .required(`Category Title is required!`)
+      .required(`Category Title is required!`),
+    image: Yup.mixed()
+      .required('Image is required!')
+      .fileSize(1000000, 'File size must be less than or equal to 1 MB'),
   });
 
   const methods = useForm({ resolver: yupResolver(EventSchema), defaultValues: getInitialValues(category), });
-  const { reset, control, setValue, watch, handleSubmit, } = methods;
+  const { reset, control, formState: { errors }, watch, handleSubmit, } = methods;
   const values = watch();
 
   useEffect(() => {
@@ -74,7 +86,7 @@ export default function CategoryForm({ isEdit, onBack, category }) {
       if (isEdit) {
         data.id = category?._id;
       }
-      let baseURL = category?.image;
+      let baseURL = data.image;
       if (typeof data.image === 'object' && data.image) {
         baseURL = await fileToBaseURL(data.image);
       }

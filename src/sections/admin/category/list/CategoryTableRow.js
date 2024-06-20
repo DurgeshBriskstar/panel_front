@@ -19,7 +19,7 @@ import { TableMoreMenu } from '../../../../components/table';
 export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow, onUpdateStatus }) {
     const theme = useTheme();
 
-    const { title, status, image, type } = row;
+    const { title, status, image, type, imageUrl } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -34,7 +34,7 @@ export default function CategoryTableRow({ row, selected, onEditRow, onDeleteRow
     return (
         <TableRow hover selected={selected} key={row?._id}>
             <TableCell sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar alt={title} color={createAvatar(title).color} sx={{ mr: 2 }} src={image ? image : ''}>
+                <Avatar alt={title} color={createAvatar(title).color} sx={{ mr: 2 }} src={image ? imageUrl : ''}>
                     {createAvatar(title).title}
                 </Avatar>
 
