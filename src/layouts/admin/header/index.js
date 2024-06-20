@@ -6,7 +6,6 @@ import useResponsive from 'src/hooks/useResponsive';
 import useOffSetTop from 'src/hooks/useOffSetTop';
 // utils
 import cssStyles from 'src/utils/cssStyles';
-import { customShadows } from 'src/theme/shadows';
 import Iconify from 'src/components/Iconify';
 // ----------------------------------------------------------------------
 

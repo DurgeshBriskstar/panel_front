@@ -19,9 +19,6 @@ export default function Thumbnail() {
             if (file) {
                 setFileInfo(file);
                 setValue('image', Object.assign(file, { preview: URL.createObjectURL(file) }));
-                if (fileInfo.size > 1000000) {
-                    setError('image', { type: 'manual', message: `File size not acceptable more than ${fData(1000000)}` })
-                }
             }
         },
         [setValue]
@@ -31,6 +28,7 @@ export default function Thumbnail() {
         () => {
             setFileInfo(null);
             setValue('image', null);
+            clearErrors('image');
         },
         [setValue]
     );
@@ -66,11 +64,11 @@ export default function Thumbnail() {
                             <br /> max size of {fData(1000000)}
                         </Typography>
                         {fileInfo &&
-                            <Alert color={fileInfo.size > 1000000 ? 'error' : 'success'}>
+                            <Alert severity={fileInfo.size > 1000000 ? 'error' : 'success'} variant="outlined">
                                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                                     Name: {fileInfo.name} <br />
                                     Size: {fData(fileInfo.size)} <br />
-                                    {errors?.image && fileInfo.size > 1000000 &&
+                                    {fileInfo.size > 1000000 &&
                                         `Error: File size must be less than or equal to ${fData(1000000)}`
                                     }
                                 </Typography>

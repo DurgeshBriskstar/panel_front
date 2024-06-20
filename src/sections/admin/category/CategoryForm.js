@@ -66,9 +66,12 @@ export default function CategoryForm({ isEdit, onBack, category }) {
   const EventSchema = Yup.object().shape({
     title: Yup.string()
       .required(`Category Title is required!`),
-    image: Yup.mixed()
-      .required('Image is required!')
-      .fileSize(1000000, 'File size must be less than or equal to 1 MB'),
+    image: Yup.mixed().nullable().test('fileSize', 'File size not acceptable more than 1MB', function (value) {
+      if (!value || typeof value === 'string') {
+        return true;
+      }
+      return value.size <= 1000000;
+    }),
   });
 
   const methods = useForm({ resolver: yupResolver(EventSchema), defaultValues: getInitialValues(category), });
