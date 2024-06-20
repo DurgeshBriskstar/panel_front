@@ -14,19 +14,19 @@ import { FormProvider, RHFTextField } from 'src/components/hook-form';
 const SOCIAL_LINKS = [
   {
     value: 'facebookLink',
-    icon: <Iconify icon={'eva:facebook-fill'} width={24} height={24} />,
+    icon: <Iconify icon={'logos:facebook'} width={24} height={24} />,
   },
   {
     value: 'instagramLink',
-    icon: <Iconify icon={'ant-design:instagram-filled'} width={24} height={24} />,
+    icon: <Iconify icon={'skill-icons:instagram'} width={24} height={24} />,
   },
   {
     value: 'linkedinLink',
-    icon: <Iconify icon={'eva:linkedin-fill'} width={24} height={24} />,
+    icon: <Iconify icon={'logos:linkedin-icon'} width={24} height={24} />,
   },
   {
     value: 'twitterLink',
-    icon: <Iconify icon={'eva:twitter-fill'} width={24} height={24} />,
+    icon: <Iconify icon={'logos:twitter'} width={24} height={24} />,
   },
 ];
 
