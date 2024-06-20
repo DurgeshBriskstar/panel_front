@@ -7,6 +7,7 @@ import useOffSetTop from 'src/hooks/useOffSetTop';
 // utils
 import cssStyles from 'src/utils/cssStyles';
 import Iconify from 'src/components/Iconify';
+import Searchbar from './Searchbar';
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(AppBar, {
@@ -60,6 +61,7 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
+                    <Searchbar />
                     <AccountPopover />
                 </Stack>
             </Toolbar>
