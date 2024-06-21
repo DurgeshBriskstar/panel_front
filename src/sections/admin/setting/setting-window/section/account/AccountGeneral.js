@@ -1,11 +1,11 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Grid, Card, Stack, Typography } from '@mui/material';
+import { Box, Grid, Card, Stack, Typography, Alert } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
 import useAuth from 'src/hooks/useAuth';
@@ -18,8 +18,8 @@ import { FormProvider, RHFSwitch, RHFSelect, RHFTextField, RHFUploadAvatar } fro
 
 export default function AccountGeneral() {
   const { enqueueSnackbar } = useSnackbar();
-
   const { user } = useAuth();
+  const [fileInfo, setFileInfo] = useState(null);
 
   const UpdateUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
@@ -28,7 +28,7 @@ export default function AccountGeneral() {
   const defaultValues = {
     displayName: user?.displayName || '',
     email: user?.email || '',
-    photoURL: user?.photoURL || '',
+    image: user?.image || '',
     phoneNumber: user?.phoneNumber || '',
     country: user?.country || '',
     address: user?.address || '',
@@ -47,20 +47,16 @@ export default function AccountGeneral() {
   const {
     setValue,
     handleSubmit,
+    clearErrors,
     formState: { isSubmitting },
   } = methods;
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
-
       if (file) {
-        setValue(
-          'photoURL',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
+        setFileInfo(file);
+        setValue('image', Object.assign(file, { preview: URL.createObjectURL(file) }));
       }
     },
     [setValue]
@@ -68,7 +64,9 @@ export default function AccountGeneral() {
 
   const handleRemove = useCallback(
     () => {
-      setValue('photoURL', null);
+      setFileInfo(null);
+      setValue('image', null);
+      clearErrors('image');
     },
     [setValue]
   );
@@ -88,27 +86,40 @@ export default function AccountGeneral() {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <Card sx={{ p: 3 }}>
-            <Box textAlign='center'>
+            <Box>
               <RHFUploadAvatar
-                name="photoURL"
-                accept="image/*"
+                name="image"
+                accept="image/png, image/jpeg, image/jpg"
                 maxSize={3145728}
                 onDrop={handleDrop}
                 onRemove={handleRemove}
                 helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 1,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary',
-                    }}
-                  >
-                    Main Logo
-                    <br /> Allowed *.jpeg, *.jpg, *.png, *.gif max size of {fData(3145728)}
-                  </Typography>
+                  <Box display={'grid'} justifyContent={'center'} gap={1}>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        mt: 2,
+                        mx: 'auto',
+                        display: 'block',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      Allowed *.jpeg, *.jpg, *.png
+                      <br /> max size of {fData(1000000)}
+                    </Typography>
+                    {fileInfo &&
+                      <Alert severity={fileInfo.size > 1000000 ? 'error' : 'success'} variant="outlined" sx={{ display: 'inline-flex', }}>
+                        <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                          Name: {fileInfo.name} <br />
+                          Size: {fData(fileInfo.size)} <br />
+                          {fileInfo.size > 1000000 &&
+                            `Error: File size must be less than or equal to ${fData(1000000)}`
+                          }
+                        </Typography>
+                      </Alert>
+                    }
+                  </Box>
                 }
               />
             </Box>

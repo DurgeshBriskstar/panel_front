@@ -16,6 +16,7 @@ import CollapseButton from './CollapseButton';
 import { NavSectionVertical } from 'src/components/nav-section';
 import useResponsive from 'src/hooks/useResponsive';
 import { customShadows } from 'src/theme/shadows';
+import NavbarAccount from './NavbarAccount';
 
 // ----------------------------------------------------------------------
 
@@ -65,6 +66,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
                         <CollapseButton onToggleCollapse={onToggleCollapse} collapseClick={collapseClick} />
                     )}
                 </Stack>
+                <NavbarAccount isCollapse={isCollapse} />
             </Stack>
 
             <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />

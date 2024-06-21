@@ -33,6 +33,12 @@ export const PATH_ADMIN = {
         account: path(ROOTS_ADMIN, '/setting/update/account-setting'),
         settingView: (tabKey) => path(ROOTS_ADMIN, `/setting/update/${tabKey}`),
     },
+    blog: {
+        root: path(ROOTS_ADMIN, '/blogs'),
+        list: path(ROOTS_ADMIN, '/blogs/list'),
+        new: path(ROOTS_ADMIN, '/blogs/add'),
+        blogEdit: (id) => path(ROOTS_ADMIN, `/blogs/edit/${id}`),
+    },
     category: {
         root: path(ROOTS_ADMIN, '/categories'),
         list: path(ROOTS_ADMIN, '/categories/list'),

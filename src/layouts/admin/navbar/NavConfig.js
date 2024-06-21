@@ -19,14 +19,14 @@ const navConfig = [
         items: [
             { title: 'dashboard', path: PATH_ADMIN.dashboard, icon: getIcon('mdi:monitor-dashboard') },
             {
-                title: 'category',
+                title: 'blog & news',
                 path: PATH_ADMIN.category.root,
                 icon: getIcon('game-icons:newspaper'),
                 children: [
+                    { title: 'Blogs & News', path: PATH_ADMIN.blog.list },
                     { title: 'Categories', path: PATH_ADMIN.category.list },
-                    { title: 'Add New', path: PATH_ADMIN.category.new },
                 ],
-            },
+            }
         ],
     },
 ];

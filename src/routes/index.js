@@ -119,6 +119,39 @@ export default function MainRouter() {
                         },
                     ],
                 },
+                {
+                    path: 'blogs',
+                    children: [
+                        {
+                            element: <Navigate to="/admin/blogs/list" replace />,
+                            index: true
+                        },
+                        {
+                            path: 'list',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADBlog />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'add',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADBlogForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'edit/:id',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADBlogForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                    ],
+                },
             ],
         },
 
@@ -275,6 +308,10 @@ const AdminSetting = Loadable(lazy(() => import('../pages/admin/setting/Setting'
 // CATEGORY
 const ADCategory = Loadable(lazy(() => import('../pages/admin/Category/CategoryList')));
 const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/CategoryAddEdit')));
+
+// BLOG & NEWS
+const ADBlog = Loadable(lazy(() => import('../pages/admin/Blog/BlogList')));
+const ADBlogForm = Loadable(lazy(() => import('../pages/admin/Blog/BlogAddEdit')));
 
 
 /* ======================================== Branch ======================================== */
