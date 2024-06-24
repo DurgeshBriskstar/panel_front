@@ -2,7 +2,7 @@
 import { Box } from '@mui/material';
 // Hook Form
 import { useFormContext } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
+import { RHFEditor, RHFTextField } from 'src/components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -20,8 +20,8 @@ export default function BlogInfo() {
             }}
         >
             <RHFTextField name="title" label="Blog title" />
-            <RHFTextField name="shortDesc" label="Short description" />
-            <RHFTextField name="description" label="Description" multiline rows={4} />
+            <RHFTextField name="shortDesc" label="Short description" multiline rows={2} />
+            <RHFEditor name="description" id="description" />
         </Box>
     )
 }

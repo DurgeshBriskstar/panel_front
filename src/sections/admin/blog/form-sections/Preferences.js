@@ -18,8 +18,7 @@ export default function Preferences() {
             }}
         >
             <RHFCheckbox name="active" label="Active" />
-            <RHFCheckbox name="showInNav" label="Show in nav" />
-            <RHFCheckbox name="isCity" label="Is City ?" />
+            <RHFCheckbox name="isNews" label="Is News ?" />
         </Box>
     )
 }

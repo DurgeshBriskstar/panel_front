@@ -20,7 +20,7 @@ export default function CategoryInfo() {
             }}
         >
             <RHFTextField name="title" label="Category title" />
-            <RHFTextField name="shortDesc" label="Short description" />
+            <RHFTextField name="shortDesc" label="Short description" multiline rows={2} />
             <RHFTextField name="description" label="Description" multiline rows={4} />
         </Box>
     )

@@ -96,7 +96,7 @@ export default function Editor({
             ["bold", "underline", "italic"],
             ["fontColor", "hiliteColor"],
             ["align", "horizontalRule", "list"],
-            ["link", "image"],
+            ["link", "image", "video"],
             ["codeView", "preview"],
             ["undo", "redo"],
         ],
