@@ -30,20 +30,26 @@ import BlogInfo from './form-sections/BlogInfo';
 import Thumbnail from './form-sections/Thumbnail';
 import Preferences from './form-sections/Preferences';
 import { fileToBaseURL } from 'src/utils/base64';
+import IdentityInfo from './form-sections/IdentityInfo';
 // ----------------------------------------------------------------------
 
 const getInitialValues = (blog) => {
   return {
     image: blog?.image ? blog?.imageUrl : "",
     title: blog?.title || "",
+    isNews: blog?.type === "news",
     shortDesc: blog?.shortDesc || "",
     description: blog?.description || "",
+    categorySlug: blog?.categorySlug || [],
+    citySlug: blog?.citySlug || [],
+    tags: blog?.tags || [],
+    active: blog?.status === 1,
+    author: blog?.author || "",
+    source: blog?.source || "",
+    publishDate: blog?.publishDate || new Date(),
     metaKeywords: blog?.metaKeywords || [],
     metaTitle: blog?.metaTitle || "",
     metaDesc: blog?.metaDesc || "",
-    isCity: blog?.type === "city",
-    active: blog?.status === 1,
-    showInNav: blog?.showInNav || false,
   }
 }
 
@@ -75,8 +81,7 @@ export default function BlogForm({ isEdit, onBack, blog }) {
   });
 
   const methods = useForm({ resolver: yupResolver(EventSchema), defaultValues: getInitialValues(blog), });
-  const { reset, control, formState: { errors }, watch, handleSubmit, } = methods;
-  const values = watch();
+  const { reset, watch, handleSubmit, } = methods;
 
   useEffect(() => {
     if (isEdit && blog) {
@@ -95,6 +100,8 @@ export default function BlogForm({ isEdit, onBack, blog }) {
       }
       data.image = baseURL;
 
+      console.log("data", data);
+
       dispatch(saveBlog(data))
         .then((originalPromiseResult) => {
           reset();
@@ -105,6 +112,7 @@ export default function BlogForm({ isEdit, onBack, blog }) {
           enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
         });
     } catch (error) {
+      console.log("error", error);
       enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
@@ -138,6 +146,7 @@ export default function BlogForm({ isEdit, onBack, blog }) {
 
         <Grid item xs={12} md={8}>
           <Card sx={{ px: 3 }}>
+
             {/* Blog Information */}
             <Stack sx={{ mt: 3 }}>
               <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
@@ -145,6 +154,14 @@ export default function BlogForm({ isEdit, onBack, blog }) {
               </Typography>
               <BlogInfo />
             </Stack >
+
+            {/* Identity Information */}
+            <Stack sx={{ mt: 3 }}>
+              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+                Identity Information
+              </Typography>
+              <IdentityInfo />
+            </Stack>
 
             {/* SEO Information */}
             <Stack sx={{ mt: 3 }}>

@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import axios from '../../utils/axios';
 //
 import { dispatch } from '../store';
+import { fileToBaseURL } from 'src/utils/base64';
 
 // ----------------------------------------------------------------------
 
@@ -230,3 +231,23 @@ export function blogModel(Id, action) {
     }
   };
 }
+
+// ----------------------------------------------------------------------
+
+export function uploadDescriptionImage(file) {
+  return async () => {
+    try {
+      const base64 = await fileToBaseURL(file);
+      const data = { image: base64 };
+      const response = await axios.post(`/api/blogs/image/upload`, data);
+      if (response.status) {
+        return Promise.resolve(response);
+      }
+      return Promise.reject(response);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  };
+}
+
+// ----------------------------------------------------------------------

@@ -2,9 +2,7 @@
 import { Box } from '@mui/material';
 // Hook Form
 import { useFormContext } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
-import RHFTagField from 'src/components/hook-form/RHFTagField';
-
+import { RHFTextField, RHFTagField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function SeoInfo() {

@@ -23,7 +23,7 @@ export default function RHFEditor({ id, name, ...other }) {
             render={({ field, fieldState: { error } }) => (
                 <Editor
                     id={id}
-                    value={field.value}
+                    value={field?.value}
                     onChange={field.onChange}
                     error={!!error}
                     helperText={

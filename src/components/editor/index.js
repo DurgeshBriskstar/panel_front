@@ -1,3 +1,4 @@
+import React from 'react';
 import PropTypes from 'prop-types';
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -5,7 +6,8 @@ import 'suneditor/dist/css/suneditor.min.css';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 // redux
-import { dispatch } from '../../redux/store';
+import { dispatch } from 'src/redux/store';
+import { uploadDescriptionImage } from 'src/redux/slices/blog';
 //
 import { PLUGINS, FONT_FAMILY, HEADINGS } from './EditorToolbar';
 
@@ -59,6 +61,54 @@ const RootStyle = styled(Box)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
+const modules = {
+    showPathLabel: false,
+    placeholder: "Write something awesome...",
+    plugins: PLUGINS,
+    buttonList: [
+        ["font", "fontSize", "formatBlock"],
+        [{
+            name: 'merge_tag',
+            dataCommand: 'merge_tag',
+            // buttonClass: '',
+            buttonClass: 'custom-merge-tag-button',
+            title: 'Variable',
+            dataDisplay: 'submenu',
+            innerHTML: '<span style="font-color:#ffff;">Variable</span><i class="fa fa-angle-down"></i>',
+        }],
+        ["paragraphStyle"],
+        ["bold", "underline", "italic"],
+        ["fontColor", "hiliteColor"],
+        ["align", "horizontalRule", "list"],
+        ["link", "image"],
+        ["codeView", "preview"],
+        ["undo", "redo"],
+    ],
+    formats: HEADINGS,
+    font: FONT_FAMILY,
+}
+
+const handleImageUploadBefore = (files, info, uploadHandler) => {
+    const file = files[0];
+    if (file != null) {
+        try {
+            dispatch(uploadDescriptionImage(file)).then((res) => {
+                const response = {
+                    result: [{
+                        url: res.data,
+                        name: file.name,
+                        size: file.size,
+                    }]
+                }
+
+                uploadHandler(response);
+            })
+        } catch (err) {
+            uploadHandler(err.toString());
+        }
+    }
+}
+
 Editor.propTypes = {
     id: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
@@ -77,75 +127,6 @@ export default function Editor({
     sx,
     ...other
 }) {
-    const modules = {
-        showPathLabel: false,
-        placeholder: "Write something awesome...",
-        plugins: PLUGINS,
-        buttonList: [
-            ["font", "fontSize", "formatBlock"],
-            [{
-                name: 'merge_tag',
-                dataCommand: 'merge_tag',
-                // buttonClass: '',
-                buttonClass: 'custom-merge-tag-button',
-                title: 'Variable',
-                dataDisplay: 'submenu',
-                innerHTML: '<span style="font-color:#ffff;">Variable</span><i class="fa fa-angle-down"></i>',
-            }],
-            ["paragraphStyle"],
-            ["bold", "underline", "italic"],
-            ["fontColor", "hiliteColor"],
-            ["align", "horizontalRule", "list"],
-            ["link", "image", "video"],
-            ["codeView", "preview"],
-            ["undo", "redo"],
-        ],
-        formats: HEADINGS,
-        font: FONT_FAMILY,
-    }
-
-    const handleImageUploadBefore = (files, info, uploadHandler) => {
-        const file = files[0];
-        if (file != null) {
-            try {
-                // dispatch(uploadTempImage(file)).then((res) => {
-                //     const response = {
-                //         result: [{
-                //             url: res.data,
-                //             name: file.name,
-                //             size: file.size,
-                //         }]
-                //     }
-
-                //     uploadHandler(response);
-                // })
-            } catch (err) {
-                uploadHandler(err.toString());
-            }
-        }
-    }
-
-    // function uploadTempImage(data) {
-    //     return async () => {
-    //         try {
-    //             // ===================== Automation with File =====================
-    //             const formData = new FormData();
-    //             formData.append('file', data);
-
-    //             const response = await axios.post('/api/review/template/image', formData, {
-    //                 headers: { 'Content-Type': 'multipart/form-data' },
-    //             });
-    //             // ===================== Automation end =====================
-    //             if (response.success) {
-    //                 return Promise.resolve(response);
-    //             }
-    //             return Promise.reject(response);
-    //         } catch (error) {
-    //             return Promise.reject(error);
-    //         }
-    //     };
-    // }
-
     return (
         <div>
             <RootStyle
@@ -160,6 +141,7 @@ export default function Editor({
                     id={id}
                     {...other}
                     defaultValue={value}
+                    setContents={value}
                     setOptions={modules}
                     placeholder="Type something..."
                     onChange={(editor) => onChange(editor)}
