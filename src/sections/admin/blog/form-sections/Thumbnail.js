@@ -3,7 +3,7 @@ import { Alert, Box, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 // Hook Form
 import { useFormContext } from 'react-hook-form';
-import { RHFUploadAvatar } from 'src/components/hook-form';
+import { RHFRemoveSingleFile, RHFUploadAvatar } from 'src/components/hook-form';
 import { fData } from 'src/utils/formatNumber';
 
 // ----------------------------------------------------------------------
@@ -37,12 +37,12 @@ export default function Thumbnail() {
         <Box
             sx={{
                 display: 'grid',
-                rowGap: 2,
+                rowGap: 3,
                 columnGap: 2,
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(1, 1fr)' },
             }}
         >
-            <RHFUploadAvatar
+            <RHFRemoveSingleFile
                 name="image"
                 accept="image/png, image/jpeg, image/jpg"
                 maxSize={2000000}

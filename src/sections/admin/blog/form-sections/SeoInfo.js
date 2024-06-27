@@ -13,12 +13,18 @@ export default function SeoInfo() {
         <Box
             sx={{
                 display: 'grid',
-                rowGap: 2,
+                rowGap: 3,
                 columnGap: 2,
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(1, 1fr)' },
             }}
         >
-            <RHFTagField name="metaKeywords" label="Meta keywords" />
+            <RHFTagField
+                name="metaKeywords"
+                label="Meta keywords"
+                freeSolo
+                options={[]}
+                optionLabel={(item) => item || ""}
+            />
             <RHFTextField name="metaTitle" label="Meta title" />
             <RHFTextField name="metaDesc" multiline rows={4} label="Meta description" />
         </Box>

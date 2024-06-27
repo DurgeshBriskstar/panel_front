@@ -14,7 +14,7 @@ RHFAutocomplete.propTypes = {
     disabled: PropTypes.bool,
 };
 
-export default function RHFAutocomplete({ name, disabled, options, optionLabel, inputChange, ...other }) {
+export default function RHFAutocomplete({ name, multiple = false, disabled, options, optionLabel, inputChange, ...other }) {
     const { control } = useFormContext();
 
     return (
@@ -24,6 +24,7 @@ export default function RHFAutocomplete({ name, disabled, options, optionLabel, 
             render={({ field, fieldState: { error } }) => (
                 <Autocomplete
                     {...field}
+                    multiple={multiple}
                     disableClearable
                     options={options}
                     onChange={inputChange}

@@ -27,7 +27,7 @@ export default function RHFDatePicker({ name, format, ...other }) {
             render={({ field, fieldState: { error } }) => (
                 <DatePicker
                     {...field}
-                    label="Start Date"
+                    label="Select Date"
                     minDate={new Date()}
                     inputFormat={format}
                     defaultCalendarMonth={new Date()}
@@ -49,6 +49,7 @@ export default function RHFDatePicker({ name, format, ...other }) {
                             }}
                         />
                     )}
+                    {...other}
                 />
             )}
         />

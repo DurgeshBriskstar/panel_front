@@ -49,6 +49,11 @@ const STATUS_OPTIONS = [
     { key: "1", value: "Active" },
     { key: "0", value: "Inactive" },
 ];
+const TYPE_OPTIONS = [
+    { key: "", value: "All" },
+    { key: "blog", value: "Blog" },
+    { key: "news", value: "News" },
+];
 
 // table head
 const TABLE_HEAD = [
@@ -67,6 +72,7 @@ export default function BlogList() {
     const [blogStatus, setBlogStatus] = useState(null);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState("");
+    const [type, setType] = useState("");
     const { blogs, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.blog);
 
     const {
@@ -88,8 +94,9 @@ export default function BlogList() {
             orderBy,
             rowsPerPage,
             status: status,
+            type: type,
         }));
-    }, [dispatch, page, order, orderBy, rowsPerPage, status, search]);
+    }, [dispatch, page, order, orderBy, rowsPerPage, status, type, search]);
 
     useEffect(() => {
         setTableData(blogs)
@@ -102,6 +109,11 @@ export default function BlogList() {
 
     const handleStatus = (event) => {
         setStatus(event.target.value);
+        setPage(0);
+    };
+
+    const handleType = (event) => {
+        setType(event.target.value);
         setPage(0);
     };
 
@@ -181,10 +193,13 @@ export default function BlogList() {
                     <CardHeader title="All Blogs" sx={{ mb: 3 }} />
                     <BlogTableToolbar
                         search={search}
-                        filterStatus={status}
                         onSearch={handleSearch}
+                        filterStatus={status}
                         onFilterStatus={handleStatus}
                         optionsStatus={STATUS_OPTIONS}
+                        filterType={type}
+                        onFilterType={handleType}
+                        optionsType={TYPE_OPTIONS}
                     />
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 1000, position: 'relative' }}>

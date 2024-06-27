@@ -32,7 +32,7 @@ const RootStyle = styled(Box)(({ theme }) => ({
         },
         '& .se-wrapper-inner': {
             backgroundColor: 'transparent',
-            minHeight: '200px !important',
+            minHeight: '300px !important',
             maxHeight: '200px !important',
             overflow: 'auto',
         },
@@ -80,12 +80,14 @@ const modules = {
         ["bold", "underline", "italic"],
         ["fontColor", "hiliteColor"],
         ["align", "horizontalRule", "list"],
-        ["link", "image"],
+        ["table", "link", "image"],
         ["codeView", "preview"],
         ["undo", "redo"],
+        // ["fullScreen"],
     ],
     formats: HEADINGS,
     font: FONT_FAMILY,
+    defaultFont: 'Public Sans',
 }
 
 const handleImageUploadBefore = (files, info, uploadHandler) => {
@@ -146,6 +148,7 @@ export default function Editor({
                     placeholder="Type something..."
                     onChange={(editor) => onChange(editor)}
                     onImageUploadBefore={handleImageUploadBefore}
+                    setDefaultStyle="font-family: 'Public Sans', sans-serif; font-size:16px;"
                 />
             </RootStyle>
             {helperText && helperText}

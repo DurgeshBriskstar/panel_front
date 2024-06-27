@@ -13,17 +13,29 @@ export default function IdentityInfo() {
     const values = watch();
 
     return (
-        <Box
-            sx={{
-                display: 'grid',
-                rowGap: 2,
-                columnGap: 2,
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(3, 1fr)' },
-            }}
-        >
-            <RHFTextField name="author" label="Author" />
-            <RHFTextField name="source" label="Source" />
-            <RHFDatePicker name="publishDate" format={DateFormat} label="Publish Date" />
-        </Box>
+        <>
+            <Box
+                sx={{
+                    display: 'grid',
+                    rowGap: 3,
+                    columnGap: 2,
+                    gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
+                }}
+            >
+                <RHFDatePicker name="publishDate" format={DateFormat} label="Publish Date" />
+                <RHFTextField name="source" label="Source" />
+            </Box>
+            <Box
+                sx={{
+                    mt: 2,
+                    display: 'grid',
+                    rowGap: 3,
+                    columnGap: 2,
+                    gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(1, 1fr)' },
+                }}
+            >
+                <RHFTextField name="sourceUrl" label="Source url" />
+            </Box>
+        </>
     )
 }

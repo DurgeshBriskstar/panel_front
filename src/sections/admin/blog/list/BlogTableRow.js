@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // @mui
 import { useTheme } from '@mui/material/styles';
-import { TableRow, TableCell, Typography, Stack, MenuItem } from '@mui/material';
+import { TableRow, TableCell, Typography, Stack, MenuItem, Tooltip } from '@mui/material';
 // config
 import { fTime } from "../../../../utils/formatTime";
 // utils
@@ -13,6 +13,7 @@ import Label from '../../../../components/Label';
 import { Avatar } from '../../../../components/images';
 import Iconify from '../../../../components/Iconify';
 import { TableMoreMenu } from '../../../../components/table';
+import { truncateText } from 'src/utils/formatText';
 
 // ----------------------------------------------------------------------
 
@@ -39,10 +40,12 @@ export default function BlogTableRow({ row, selected, onEditRow, onDeleteRow, on
                 </Avatar>
 
                 <Stack>
-                    <Typography variant="subtitle2" noWrap>
-                        {title}
-                        {type === 'city' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>City</Label> : ''}
-                    </Typography>
+                    <Tooltip title={title} placement='right'>
+                        <Typography variant="subtitle2" noWrap>
+                            {truncateText(title, 5)}
+                            {type === 'news' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>News</Label> : ''}
+                        </Typography>
+                    </Tooltip>
                 </Stack>
             </TableCell>
 

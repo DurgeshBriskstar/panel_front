@@ -11,7 +11,7 @@ RHFTagField.propTypes = {
     name: PropTypes.string,
 };
 
-export default function RHFTagField({ name, ...other }) {
+export default function RHFTagField({ name, freeSolo = false, options = [], optionLabel, onInputChange, ...other }) {
     const { control } = useFormContext();
     const theme = useTheme();
 
@@ -22,10 +22,11 @@ export default function RHFTagField({ name, ...other }) {
             render={({ field, fieldState: { error } }) => (
                 <Autocomplete
                     multiple
-                    freeSolo
+                    freeSolo={freeSolo}
                     value={field.value}
                     onChange={(event, newValue) => field.onChange(newValue)}
-                    options={[]}
+                    options={options}
+                    getOptionLabel={optionLabel}
                     renderTags={(value, getTagProps) =>
                         value.map((option, index) => (
                             <Chip

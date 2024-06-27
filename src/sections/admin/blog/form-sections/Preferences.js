@@ -19,6 +19,7 @@ export default function Preferences() {
         >
             <RHFCheckbox name="active" label="Active" />
             <RHFCheckbox name="isNews" label="Is News ?" />
+            <RHFCheckbox name="enableComments" label="Enable comments ?" />
         </Box>
     )
 }

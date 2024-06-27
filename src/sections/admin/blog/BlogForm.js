@@ -37,15 +37,16 @@ const getInitialValues = (blog) => {
   return {
     image: blog?.image ? blog?.imageUrl : "",
     title: blog?.title || "",
-    isNews: blog?.type === "news",
     shortDesc: blog?.shortDesc || "",
     description: blog?.description || "",
-    categorySlug: blog?.categorySlug || [],
-    citySlug: blog?.citySlug || [],
+    category: blog?.category || [],
+    city: blog?.city || [],
     tags: blog?.tags || [],
     active: blog?.status === 1,
-    author: blog?.author || "",
+    isNews: blog?.type === "news",
+    enableComments: blog?.enableComments === 1,
     source: blog?.source || "",
+    sourceUrl: blog?.sourceUrl || "",
     publishDate: blog?.publishDate || new Date(),
     metaKeywords: blog?.metaKeywords || [],
     metaTitle: blog?.metaTitle || "",
@@ -78,6 +79,18 @@ export default function BlogForm({ isEdit, onBack, blog }) {
       }
       return value.size <= 1000000;
     }),
+    shortDesc: Yup.string()
+      .required(`Short description is required!`),
+    description: Yup.string()
+      .required(`Description is required!`),
+    category: Yup.array()
+      .of(Yup.string().required('Each category must be a string'))
+      .required('Category is required!')
+      .min(1, 'At least one category is required!'),
+    tags: Yup.array()
+      .of(Yup.string().required('Each tag must be a string'))
+      .required('Tag is required!')
+      .min(1, 'At least one tag is required!'),
   });
 
   const methods = useForm({ resolver: yupResolver(EventSchema), defaultValues: getInitialValues(blog), });
@@ -127,16 +140,16 @@ export default function BlogForm({ isEdit, onBack, blog }) {
         <Grid item xs={12} md={4}>
           <Card sx={{ px: 3 }}>
             {/* Blog Thumbnail */}
-            <Stack sx={{ my: 3 }}>
-              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            <Stack>
+              <Typography variant="subtitle1" sx={{ my: 2, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
                 Blog Thumbnail
               </Typography>
               <Thumbnail />
             </Stack>
 
             {/* Preferences */}
-            <Stack sx={{ my: 3 }}>
-              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            <Stack sx={{ mb: 2 }}>
+              <Typography variant="subtitle1" sx={{ my: 2, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
                 Preferences
               </Typography>
               <Preferences />
@@ -148,24 +161,24 @@ export default function BlogForm({ isEdit, onBack, blog }) {
           <Card sx={{ px: 3 }}>
 
             {/* Blog Information */}
-            <Stack sx={{ mt: 3 }}>
-              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            <Stack>
+              <Typography variant="subtitle1" sx={{ my: 2, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
                 Blog Information
               </Typography>
               <BlogInfo />
             </Stack >
 
             {/* Identity Information */}
-            <Stack sx={{ mt: 3 }}>
-              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            <Stack>
+              <Typography variant="subtitle1" sx={{ my: 2, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
                 Identity Information
               </Typography>
               <IdentityInfo />
             </Stack>
 
             {/* SEO Information */}
-            <Stack sx={{ mt: 3 }}>
-              <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            <Stack>
+              <Typography variant="subtitle1" sx={{ my: 2, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
                 SEO Information
               </Typography>
               <SeoInfo />

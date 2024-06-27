@@ -20,7 +20,7 @@ import mergeTag from "./DropDown";
 
 // ----------------------------------------------------------------------
 
-export const FONT_FAMILY = ["Arial", "Calibri", "Comic Sans", "Courier", "Garamond", "Georgia", "Impact", "Lucida Console"];
+export const FONT_FAMILY = ["Public Sans", "Arial", "Calibri", "Comic Sans", "Courier", "Garamond", "Georgia", "Impact", "Lucida Console", "Open Sans", "Sans-Serif"];
 
 export const FONT_SIZE = [
     '8px',
