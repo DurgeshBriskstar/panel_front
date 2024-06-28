@@ -57,8 +57,11 @@ const TYPE_OPTIONS = [
 
 // table head
 const TABLE_HEAD = [
-    { id: 'title', label: 'Title', align: 'left' },
-    { id: 'status', label: 'Status', align: 'left' },
+    { id: 'title', label: 'Title', align: 'left', sort: true },
+    { id: 'category', label: 'Category', align: 'left', sort: true },
+    { id: 'city', label: 'City', align: 'left', sort: true },
+    { id: 'status', label: 'Status', align: 'left', sort: true },
+    { id: 'tracking', label: 'Tracking', align: 'center' },
     { id: '', label: 'Action', align: 'center' },
 ];
 

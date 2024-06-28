@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
+import { useSnackbar } from 'notistack';
 // utils
 import axios from '../utils/axios';
 // ----------------------------------------------------------------------
@@ -80,6 +81,7 @@ AuthProvider.propTypes = {
 
 function AuthProvider({ children }) {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         initializeAuth();
@@ -192,6 +194,7 @@ function AuthProvider({ children }) {
                 }
             }
         }).catch((error) => {
+            enqueueSnackbar(error, { variant: 'error' });
             return Promise.reject(error);
         });
         return Promise.reject(response);

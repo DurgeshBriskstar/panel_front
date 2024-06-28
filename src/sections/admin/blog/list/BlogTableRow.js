@@ -20,7 +20,7 @@ import { truncateText } from 'src/utils/formatText';
 export default function BlogTableRow({ row, selected, onEditRow, onDeleteRow, onUpdateStatus }) {
     const theme = useTheme();
 
-    const { title, status, image, type, imageUrl } = row;
+    const { title, status, image, type, imageUrl, category, city, publishDate, createdAt, createdByUser, updatedAt, updatedByUser, } = row;
 
     const [openMenu, setOpenMenuActions] = useState(null);
 
@@ -30,6 +30,16 @@ export default function BlogTableRow({ row, selected, onEditRow, onDeleteRow, on
 
     const handleCloseMenu = () => {
         setOpenMenuActions(null);
+    };
+
+    const getHistory = () => {
+        let list = [];
+        if (publishDate) { list.push(`Published at: ${publishDate}`) }
+        if (createdAt) { list.push(`Created at: ${createdAt}`) }
+        if (createdByUser) { list.push(`Created by: ${createdByUser}`) }
+        if (updatedAt) { list.push(`Updated at: ${updatedAt}`) }
+        if (updatedByUser) { list.push(`Updated by: ${updatedByUser}`) }
+        return list.join('\n');
     };
 
     return (
@@ -42,11 +52,19 @@ export default function BlogTableRow({ row, selected, onEditRow, onDeleteRow, on
                 <Stack>
                     <Tooltip title={title} placement='right'>
                         <Typography variant="subtitle2" noWrap>
-                            {truncateText(title, 5)}
+                            {truncateText(title, 4)}
                             {type === 'news' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>News</Label> : ''}
                         </Typography>
                     </Tooltip>
                 </Stack>
+            </TableCell>
+
+            <TableCell align="left">
+                {category.join(", ")}
+            </TableCell>
+
+            <TableCell align="left">
+                {city.join(", ")}
             </TableCell>
 
             <TableCell align="left">
@@ -64,6 +82,14 @@ export default function BlogTableRow({ row, selected, onEditRow, onDeleteRow, on
                 >
                     {status === 1 ? 'Active' : 'Inactive'}
                 </Label>
+            </TableCell>
+
+            <TableCell align="center">
+                <Tooltip title={<pre>{getHistory()}</pre>} placement='left'>
+                    <Typography variant="subtitle2" noWrap>
+                        <Iconify icon={'oui:app-recently-viewed'} width={24} height={24} sx={{ cursor: 'pointer' }} />
+                    </Typography>
+                </Tooltip>
             </TableCell>
 
             <TableCell align="center">

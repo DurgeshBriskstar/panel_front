@@ -4,8 +4,12 @@ import axios from './axios';
 
 // get IP address
 const myIp = async () => {
-    const res = await axios.get('/api/geolocation');
-    return Promise.resolve(res);
+    try {
+        const res = await axios.get('/api/geolocation');
+        return Promise.resolve(res);
+    } catch (error) {
+        return Promise.reject(error);
+    }
 };
 
 // get browser name

@@ -52,8 +52,8 @@ const STATUS_OPTIONS = [
 
 // table head
 const TABLE_HEAD = [
-    { id: 'title', label: 'Category', align: 'left' },
-    { id: 'status', label: 'Status', align: 'left' },
+    { id: 'title', label: 'Category', align: 'left', sort: true },
+    { id: 'status', label: 'Status', align: 'left', sort: true },
     { id: '', label: 'Action', align: 'center' },
 ];
 
