@@ -50,6 +50,12 @@ const STATUS_OPTIONS = [
     { key: "0", value: "Inactive" },
 ];
 
+const TYPE_OPTIONS = [
+    { key: "", value: "All" },
+    { key: "city", value: "City" },
+    { key: "category", value: "Category" },
+];
+
 // table head
 const TABLE_HEAD = [
     { id: 'title', label: 'Category', align: 'left', sort: true },
@@ -67,6 +73,7 @@ export default function CategoryList() {
     const [categoryStatus, setCategoryStatus] = useState(null);
     const [search, setSearch] = useState('');
     const [status, setStatus] = useState("");
+    const [type, setType] = useState("");
     const { categories, count, isDeleteModal, isStatusModal, isLoading } = useSelector((state) => state.category);
 
     const {
@@ -88,8 +95,9 @@ export default function CategoryList() {
             orderBy,
             rowsPerPage,
             status: status,
+            type: type,
         }));
-    }, [dispatch, page, order, orderBy, rowsPerPage, status, search]);
+    }, [dispatch, page, order, orderBy, rowsPerPage, status, type, search]);
 
     useEffect(() => {
         setTableData(categories)
@@ -102,6 +110,11 @@ export default function CategoryList() {
 
     const handleStatus = (event) => {
         setStatus(event.target.value);
+        setPage(0);
+    };
+
+    const handleType = (event) => {
+        setType(event.target.value);
         setPage(0);
     };
 
@@ -185,6 +198,9 @@ export default function CategoryList() {
                         onSearch={handleSearch}
                         onFilterStatus={handleStatus}
                         optionsStatus={STATUS_OPTIONS}
+                        filterType={type}
+                        onFilterType={handleType}
+                        optionsType={TYPE_OPTIONS}
                     />
                     <Scrollbar>
                         <TableContainer sx={{ minWidth: 1000, position: 'relative' }}>
