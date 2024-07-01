@@ -117,8 +117,8 @@ export function getSliders(data) {
       dispatch(slice.actions.startLoading());
       const response = await axios.post('/api/sliders/get', data);
       if (response.status) {
-        dispatch(slice.actions.getSlidersSuccess(response.data));
-        dispatch(slice.actions.getSlidersCount(response.data?.length));
+        dispatch(slice.actions.getSlidersSuccess(response?.data?.slider));
+        dispatch(slice.actions.getSlidersCount(response?.data?.count));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -137,7 +137,7 @@ export function getSlider(id) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post(`/api/sliders/get/${id}`);
-      dispatch(slice.actions.getSliderSuccess(response.data[0]));
+      dispatch(slice.actions.getSliderSuccess(response?.data?.slider[0]));
     } catch (error) {
       console.log(error.message);
       dispatch(slice.actions.resetLoader());

@@ -117,8 +117,8 @@ export function getCategories(data) {
       dispatch(slice.actions.startLoading());
       const response = await axios.post('/api/categories/get', data);
       if (response.status) {
-        dispatch(slice.actions.getCategoriesSuccess(response.data));
-        dispatch(slice.actions.getCategoriesCount(response.data?.length));
+        dispatch(slice.actions.getCategoriesSuccess(response?.data?.category));
+        dispatch(slice.actions.getCategoriesCount(response?.data?.count));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -137,7 +137,7 @@ export function getCategory(id) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post(`/api/categories/get/${id}`);
-      dispatch(slice.actions.getCategorySuccess(response.data[0]));
+      dispatch(slice.actions.getCategorySuccess(response?.data?.category[0]));
     } catch (error) {
       console.log(error.message);
       dispatch(slice.actions.resetLoader());

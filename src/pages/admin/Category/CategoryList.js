@@ -203,7 +203,7 @@ export default function CategoryList() {
                         optionsType={TYPE_OPTIONS}
                     />
                     <Scrollbar>
-                        <TableContainer sx={{ minWidth: 1000, position: 'relative' }}>
+                        <TableContainer sx={{ minWidth: 900, position: 'relative' }}>
                             <Table size={'medium'}>
                                 <TableHeadCustom
                                     order={order}

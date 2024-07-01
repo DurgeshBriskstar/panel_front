@@ -118,8 +118,8 @@ export function getBlogs(data) {
       dispatch(slice.actions.startLoading());
       const response = await axios.post('/api/blogs/get', data);
       if (response.status) {
-        dispatch(slice.actions.getBlogsSuccess(response.data));
-        dispatch(slice.actions.getBlogsCount(response.data?.length));
+        dispatch(slice.actions.getBlogsSuccess(response?.data?.blog));
+        dispatch(slice.actions.getBlogsCount(response?.data?.count));
         return Promise.resolve(response);
       }
       dispatch(slice.actions.resetLoader());
@@ -138,7 +138,7 @@ export function getBlog(id) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.post(`/api/blogs/get/${id}`);
-      dispatch(slice.actions.getBlogSuccess(response.data[0]));
+      dispatch(slice.actions.getBlogSuccess(response?.data?.blog[0]));
     } catch (error) {
       console.log(error.message);
       dispatch(slice.actions.resetLoader());
