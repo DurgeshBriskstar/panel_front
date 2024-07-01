@@ -44,6 +44,12 @@ export const PATH_ADMIN = {
         list: path(ROOTS_ADMIN, '/categories/list'),
         new: path(ROOTS_ADMIN, '/categories/add'),
         categoryEdit: (id) => path(ROOTS_ADMIN, `/categories/edit/${id}`),
+    },
+    slider: {
+        root: path(ROOTS_ADMIN, '/sliders'),
+        list: path(ROOTS_ADMIN, '/sliders/list'),
+        new: path(ROOTS_ADMIN, '/sliders/add'),
+        sliderEdit: (id) => path(ROOTS_ADMIN, `/sliders/edit/${id}`),
     }
 };
 

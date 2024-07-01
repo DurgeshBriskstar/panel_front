@@ -120,6 +120,39 @@ export default function MainRouter() {
                     ],
                 },
                 {
+                    path: 'sliders',
+                    children: [
+                        {
+                            element: <Navigate to="/admin/sliders/list" replace />,
+                            index: true
+                        },
+                        {
+                            path: 'list',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADSlider />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'add',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADSliderForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'edit/:id',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADSliderForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                    ],
+                },
+                {
                     path: 'blogs',
                     children: [
                         {
@@ -308,6 +341,10 @@ const AdminSetting = Loadable(lazy(() => import('../pages/admin/setting/Setting'
 // CATEGORY
 const ADCategory = Loadable(lazy(() => import('../pages/admin/Category/CategoryList')));
 const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/CategoryAddEdit')));
+
+// SLIDER
+const ADSlider = Loadable(lazy(() => import('../pages/admin/Slider/SliderList')));
+const ADSliderForm = Loadable(lazy(() => import('../pages/admin/Slider/SliderAddEdit')));
 
 // BLOG & NEWS
 const ADBlog = Loadable(lazy(() => import('../pages/admin/Blog/BlogList')));
