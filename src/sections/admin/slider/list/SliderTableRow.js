@@ -41,7 +41,7 @@ export default function SliderTableRow({ row, selected, onEditRow, onDeleteRow, 
                 <Stack>
                     <Typography variant="subtitle2" noWrap>
                         {title}
-                        {type === 'city' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>City</Label> : ''}
+                        {type === 'news' ? <Label sx={{ ml: 1 }} color='primary' variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}>News</Label> : ''}
                     </Typography>
                 </Stack>
             </TableCell>
