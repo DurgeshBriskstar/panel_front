@@ -4,7 +4,7 @@ import { useSnackbar } from 'notistack';
 // utils
 import axios from '../utils/axios';
 // ----------------------------------------------------------------------
-import { isValidToken, setSession, isAgencyHijack } from '../utils/jwt';
+import { isValidToken, setSession } from '../utils/jwt';
 
 // initial state
 const initialState = {

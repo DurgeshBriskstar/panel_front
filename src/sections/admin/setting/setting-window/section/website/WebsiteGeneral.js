@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -16,39 +16,40 @@ import { FormProvider, RHFSwitch, RHFSelect, RHFTextField, RHFUploadAvatar } fro
 
 // ----------------------------------------------------------------------
 
-export default function WebsiteGeneral() {
+const getInitialValues = (webInfo) => {
+  return {
+    displayName: webInfo?.displayName || '',
+    email: webInfo?.email || '',
+    photoURL: webInfo?.photoURL || '',
+    phoneNumber: webInfo?.phoneNumber || '',
+    country: webInfo?.country || '',
+    address: webInfo?.address || '',
+    state: webInfo?.state || '',
+    city: webInfo?.city || '',
+    zipCode: webInfo?.zipCode || '',
+    about: webInfo?.about || '',
+    isPublic: webInfo?.isPublic || false,
+  }
+}
+
+export default function WebsiteGeneral({ isLoading, webInfo }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const { user } = useAuth();
 
-  const UpdateUserSchema = Yup.object().shape({
+  const UpdateWebSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
   });
 
-  const defaultValues = {
-    displayName: user?.displayName || '',
-    email: user?.email || '',
-    photoURL: user?.photoURL || '',
-    phoneNumber: user?.phoneNumber || '',
-    country: user?.country || '',
-    address: user?.address || '',
-    state: user?.state || '',
-    city: user?.city || '',
-    zipCode: user?.zipCode || '',
-    about: user?.about || '',
-    isPublic: user?.isPublic || false,
-  };
+  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
+  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
+  const values = watch();
 
-  const methods = useForm({
-    resolver: yupResolver(UpdateUserSchema),
-    defaultValues,
-  });
-
-  const {
-    setValue,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  useEffect(() => {
+    if (webInfo) {
+      reset(getInitialValues(webInfo));
+    }
+  }, [webInfo]);
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -145,7 +146,7 @@ export default function WebsiteGeneral() {
             <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
               <RHFTextField name="about" multiline rows={4} label="About" />
 
-              <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+              <LoadingButton type="submit" variant="contained" loading={isLoading}>
                 Save Changes
               </LoadingButton>
             </Stack>

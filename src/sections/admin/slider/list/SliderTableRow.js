@@ -1,11 +1,8 @@
-import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 // @mui
 import { useTheme } from '@mui/material/styles';
 import { TableRow, TableCell, Typography, Stack, MenuItem } from '@mui/material';
-// config
-import { fTime } from "../../../../utils/formatTime";
 // utils
 import createAvatar from '../../../../utils/createAvatar';
 // components

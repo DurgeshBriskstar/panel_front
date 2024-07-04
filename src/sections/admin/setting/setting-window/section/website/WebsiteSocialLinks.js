@@ -1,7 +1,9 @@
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 // form
+import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Stack, Card, InputAdornment } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -28,37 +30,45 @@ const SOCIAL_LINKS = [
     value: 'twitterLink',
     icon: <Iconify icon={'logos:twitter'} width={24} height={24} />,
   },
+  {
+    value: 'pinterestLink',
+    icon: <Iconify icon={'logos:pinterest'} width={24} height={24} />,
+  },
+  {
+    value: 'youtubeLink',
+    icon: <Iconify icon={'logos:youtube-icon'} width={24} height={24} />,
+  },
 ];
 
 // ----------------------------------------------------------------------
 
-WebsiteSocialLinks.propTypes = {
-  myProfile: PropTypes.shape({
-    facebookLink: PropTypes.string,
-    instagramLink: PropTypes.string,
-    linkedinLink: PropTypes.string,
-    twitterLink: PropTypes.string,
-  }),
-};
+const getInitialValues = (webInfo) => {
+  return {
+    facebookLink: webInfo?.facebookLink || '',
+    instagramLink: webInfo?.instagramLink || '',
+    linkedinLink: webInfo?.linkedinLink || '',
+    twitterLink: webInfo?.twitterLink || '',
+    pinterestLink: webInfo?.twitterLink || '',
+    youtubeLink: webInfo?.twitterLink || '',
+  }
+}
 
-export default function WebsiteSocialLinks({ myProfile }) {
+export default function WebsiteSocialLinks({ isLoading, webInfo }) {
   const { enqueueSnackbar } = useSnackbar();
 
-  const defaultValues = {
-    facebookLink: myProfile.facebookLink,
-    instagramLink: myProfile.instagramLink,
-    linkedinLink: myProfile.linkedinLink,
-    twitterLink: myProfile.twitterLink,
-  };
-
-  const methods = useForm({
-    defaultValues,
+  const UpdateWebSchema = Yup.object().shape({
+    displayName: Yup.string().required('Name is required'),
   });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
+  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
+  const values = watch();
+
+  useEffect(() => {
+    if (webInfo) {
+      reset(getInitialValues(webInfo));
+    }
+  }, [webInfo]);
 
   const onSubmit = async () => {
     try {
@@ -83,7 +93,7 @@ export default function WebsiteSocialLinks({ myProfile }) {
             />
           ))}
 
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>

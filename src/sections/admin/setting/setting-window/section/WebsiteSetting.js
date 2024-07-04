@@ -8,32 +8,38 @@ import useSettings from 'src/hooks/useSettings';
 import Page from 'src/components/Page';
 import Iconify from 'src/components/Iconify';
 // sections
-import {
-  WebsiteGeneral,
-  WebsiteSocialLinks,
-} from './website';
+import { WebsiteGeneral, WebsiteSocialLinks } from './website';
+import { useDispatch, useSelector } from 'src/redux/store';
+import { getWebInfo } from 'src/redux/slices/webInfo';
+import { useEffect } from 'react';
 
 // ----------------------------------------------------------------------
 
 export default function WebsiteSetting() {
   const { themeStretch } = useSettings();
-
   const { currentTab, onChangeTab } = useTabs('general');
+  const dispatch = useDispatch();
+  const { isLoading, webInfo } = useSelector((state) => state.webInfo);
+
+  useEffect(() => {
+    dispatch(getWebInfo());
+  }, []);
+
+  console.log("webInfo", webInfo);
 
   const ACCOUNT_TABS = [
     {
       value: 'general',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <WebsiteGeneral />,
+      component: <WebsiteGeneral isLoading={isLoading} webInfo={webInfo} />,
     },
     {
       value: 'social_links',
       icon: <Iconify icon={'eva:share-fill'} width={20} height={20} />,
-      component: <WebsiteSocialLinks myProfile={{}} />,
+      component: <WebsiteSocialLinks isLoading={isLoading} webInfo={webInfo} />,
     },
   ];
 
-  console.log("web");
 
   return (
     <Page title="Settings: Website">
