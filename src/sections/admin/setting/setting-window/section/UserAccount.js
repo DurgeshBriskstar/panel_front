@@ -4,6 +4,7 @@ import { Container, Tab, Box, Tabs } from '@mui/material';
 // hooks
 import useTabs from 'src/hooks/useTabs';
 import useSettings from 'src/hooks/useSettings';
+import useAuth from 'src/hooks/useAuth';
 // components
 import Page from 'src/components/Page';
 import Iconify from 'src/components/Iconify';
@@ -14,6 +15,7 @@ import { AccountChangePassword, AccountGeneral, AccountSocialLinks } from './acc
 
 export default function UserAccount() {
   const { themeStretch } = useSettings();
+  const { user } = useAuth();
 
   const { currentTab, onChangeTab } = useTabs('general');
 
@@ -21,17 +23,17 @@ export default function UserAccount() {
     {
       value: 'general',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <AccountGeneral />,
+      component: <AccountGeneral userInfo={user} />,
     },
     {
       value: 'social_links',
       icon: <Iconify icon={'eva:share-fill'} width={20} height={20} />,
-      component: <AccountSocialLinks myProfile={{}} />,
+      component: <AccountSocialLinks userInfo={user} />,
     },
     {
-      value: 'change_password',
+      value: 'security',
       icon: <Iconify icon={'ic:round-vpn-key'} width={20} height={20} />,
-      component: <AccountChangePassword />,
+      component: <AccountChangePassword userInfo={user} />,
     },
   ];
 

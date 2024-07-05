@@ -4,14 +4,16 @@ import { useSnackbar } from 'notistack';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 // @mui
-import { Stack, Card } from '@mui/material';
+import { Stack, Card, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
-import { FormProvider, RHFTextField } from 'src/components/hook-form';
+import { FormProvider } from 'src/components/hook-form';
+import SecurityInfo from './form-sections/SecurityInfo';
 
 // ----------------------------------------------------------------------
 
 export default function AccountChangePassword() {
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
   const ChangePassWordSchema = Yup.object().shape({
@@ -50,14 +52,15 @@ export default function AccountChangePassword() {
   return (
     <Card sx={{ p: 3 }}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3} alignItems="flex-end">
-          <RHFTextField name="oldPassword" type="password" label="Old Password" />
-
-          <RHFTextField name="newPassword" type="password" label="New Password" />
-
-          <RHFTextField name="confirmNewPassword" type="password" label="Confirm New Password" />
-
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+        {/* Update Password */}
+        <Stack sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            Update password
+          </Typography>
+          <SecurityInfo />
+        </Stack>
+        <Stack alignItems="flex-end">
+          <LoadingButton type="submit" variant="contained" loading>
             Save Changes
           </LoadingButton>
         </Stack>

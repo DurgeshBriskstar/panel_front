@@ -13,18 +13,18 @@ import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
-const getInitialValues = (webInfo) => {
+const getInitialValues = (userInfo) => {
   return {
-    facebookLink: webInfo?.facebookLink || '',
-    instagramLink: webInfo?.instagramLink || '',
-    linkedinLink: webInfo?.linkedinLink || '',
-    twitterLink: webInfo?.twitterLink || '',
-    pinterestLink: webInfo?.twitterLink || '',
-    youtubeLink: webInfo?.twitterLink || '',
+    facebookLink: userInfo?.facebookLink || '',
+    instagramLink: userInfo?.instagramLink || '',
+    linkedinLink: userInfo?.linkedinLink || '',
+    twitterLink: userInfo?.twitterLink || '',
+    pinterestLink: userInfo?.twitterLink || '',
+    youtubeLink: userInfo?.twitterLink || '',
   }
 }
 
-export default function WebsiteSocialLinks({ isLoading, webInfo }) {
+export default function AccountSocialLinks({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,15 +32,15 @@ export default function WebsiteSocialLinks({ isLoading, webInfo }) {
     displayName: Yup.string().required('Name is required'),
   });
 
-  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
+  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
   const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
   const values = watch();
 
   useEffect(() => {
-    if (webInfo) {
-      reset(getInitialValues(webInfo));
+    if (userInfo) {
+      reset(getInitialValues(userInfo));
     }
-  }, [webInfo]);
+  }, [userInfo]);
 
   const onSubmit = async () => {
     try {
@@ -62,7 +62,7 @@ export default function WebsiteSocialLinks({ isLoading, webInfo }) {
           <SocialInfo />
         </Stack>
         <Stack alignItems="flex-end">
-          <LoadingButton type="submit" variant="contained" loading={isLoading}>
+          <LoadingButton type="submit" variant="contained" loading>
             Save Changes
           </LoadingButton>
         </Stack>

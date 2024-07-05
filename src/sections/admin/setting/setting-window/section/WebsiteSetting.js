@@ -25,8 +25,6 @@ export default function WebsiteSetting() {
     dispatch(getWebInfo());
   }, []);
 
-  console.log("webInfo", webInfo);
-
   const ACCOUNT_TABS = [
     {
       value: 'general',

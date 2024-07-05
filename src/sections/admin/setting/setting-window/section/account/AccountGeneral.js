@@ -7,8 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Card, Stack, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// hooks
-import useAuth from 'src/hooks/useAuth';
 // components
 import { FormProvider } from 'src/components/hook-form';
 import GeneralInfo from './form-sections/GeneralInfo';
@@ -18,41 +16,39 @@ import AddressInfo from './form-sections/AddressInfo';
 
 // ----------------------------------------------------------------------
 
-const getInitialValues = (webInfo) => {
+const getInitialValues = (userInfo) => {
   return {
-    displayName: webInfo?.displayName || '',
-    email: webInfo?.email || '',
-    photoURL: webInfo?.photoURL || '',
-    phoneNumber: webInfo?.phoneNumber || '',
-    country: webInfo?.country || '',
-    address: webInfo?.address || '',
-    state: webInfo?.state || '',
-    city: webInfo?.city || '',
-    zipCode: webInfo?.zipCode || '',
-    about: webInfo?.about || '',
-    isPublic: webInfo?.isPublic || false,
+    displayName: userInfo?.displayName || '',
+    email: userInfo?.email || '',
+    photoURL: userInfo?.photoURL || '',
+    phoneNumber: userInfo?.phoneNumber || '',
+    country: userInfo?.country || '',
+    address: userInfo?.address || '',
+    state: userInfo?.state || '',
+    city: userInfo?.city || '',
+    zipCode: userInfo?.zipCode || '',
+    about: userInfo?.about || '',
+    isPublic: userInfo?.isPublic || false,
   }
 }
 
-export default function WebsiteGeneral({ isLoading, webInfo }) {
+export default function AccountGeneral({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
-
-  const { user } = useAuth();
 
   const UpdateWebSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
   });
 
-  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
+  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
   const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
   const values = watch();
 
   useEffect(() => {
-    if (webInfo) {
-      reset(getInitialValues(webInfo));
+    if (userInfo) {
+      reset(getInitialValues(userInfo));
     }
-  }, [webInfo]);
+  }, [userInfo]);
 
   const handleDrop = useCallback(
     (acceptedFiles) => {
@@ -120,7 +116,7 @@ export default function WebsiteGeneral({ isLoading, webInfo }) {
         </Stack>
 
         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-          <LoadingButton type="submit" variant="contained" loading={isLoading}>
+          <LoadingButton type="submit" variant="contained" loading>
             Save Changes
           </LoadingButton>
         </Stack>
