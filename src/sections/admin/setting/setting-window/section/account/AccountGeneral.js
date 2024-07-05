@@ -9,7 +9,7 @@ import { Card, Stack, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // components
 import { FormProvider } from 'src/components/hook-form';
-import GeneralInfo from './form-sections/GeneralInfo';
+import PersonalInfo from './form-sections/PersonalInfo';
 import LogoSection from './form-sections/LogoSection';
 import ContactInfo from './form-sections/ContactInfo';
 import AddressInfo from './form-sections/AddressInfo';
@@ -91,12 +91,12 @@ export default function AccountGeneral({ userInfo }) {
           <LogoSection />
         </Stack>
 
-        {/* General Info */}
+        {/* Personal Info */}
         <Stack sx={{ my: 3 }}>
           <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
-            General info
+            Personal info
           </Typography>
-          <GeneralInfo />
+          <PersonalInfo />
         </Stack>
 
         {/* General Info */}

@@ -2,7 +2,7 @@
 import { Box } from '@mui/material';
 // Hook Form
 import { useFormContext } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
+import { RHFPhone, RHFTextField } from 'src/components/hook-form';
 // ----------------------------------------------------------------------
 
 export default function ContactInfo() {
@@ -20,10 +20,8 @@ export default function ContactInfo() {
         >
             <RHFTextField name="primaryEmail" label="Primary email address" />
             <RHFTextField name="secondaryEmail" label="Email address" />
-
-            <RHFTextField name="primaryPhone" label="Primary phone number" />
-            <RHFTextField name="secondaryPhone" label="Secondary phone number" />
-            <RHFTextField name="whatsAppPhone" label="Whats'app number" />
+            <RHFPhone name="primaryPhone" label="Contact No." />
+            <RHFPhone name="secondaryPhone" label="Alternate Contact No." />
         </Box>
     )
 }

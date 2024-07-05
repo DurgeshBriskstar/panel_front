@@ -4,7 +4,8 @@ import { useFormContext, Controller } from 'react-hook-form';
 // @mui
 import { FormHelperText, styled } from '@mui/material';
 // react-phone-input-2
-import ReactPhoneInput from 'react-phone-input-2'
+import ReactPhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/material.css'
 
 // ----------------------------------------------------------------------
 
@@ -46,14 +47,13 @@ export default function RHFPhone({ name, label, disabled }) {
                 <PhoneInputStyle error={error}>
                     <ReactPhoneInput
                         {...field}
+                        enableSearch
                         disabled={disabled}
-                        inputExtraProps={{
-                            ref
-                        }}
+                        inputExtraProps={{ ref }}
                         specialLabel={label}
                         copyNumbersOnly={false}
-                        country="gb"
-                        preferredCountries={["ch", "gb"]}
+                        country="in"
+                        preferredCountries={["in"]}
                     />
                     {!!error && (
                         <FormHelperText error sx={{ px: 2, textAlign: 'start' }}>
