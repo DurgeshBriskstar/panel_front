@@ -5,40 +5,11 @@ import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Card, InputAdornment } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Card, Stack, Typography, useTheme } from '@mui/material';
 // components
-import Iconify from 'src/components/Iconify';
-import { FormProvider, RHFTextField } from 'src/components/hook-form';
-
-// ----------------------------------------------------------------------
-
-const SOCIAL_LINKS = [
-  {
-    value: 'facebookLink',
-    icon: <Iconify icon={'logos:facebook'} width={24} height={24} />,
-  },
-  {
-    value: 'instagramLink',
-    icon: <Iconify icon={'skill-icons:instagram'} width={24} height={24} />,
-  },
-  {
-    value: 'linkedinLink',
-    icon: <Iconify icon={'logos:linkedin-icon'} width={24} height={24} />,
-  },
-  {
-    value: 'twitterLink',
-    icon: <Iconify icon={'logos:twitter'} width={24} height={24} />,
-  },
-  {
-    value: 'pinterestLink',
-    icon: <Iconify icon={'logos:pinterest'} width={24} height={24} />,
-  },
-  {
-    value: 'youtubeLink',
-    icon: <Iconify icon={'logos:youtube-icon'} width={24} height={24} />,
-  },
-];
+import { FormProvider } from 'src/components/hook-form';
+import SocialInfo from './form-sections/SocialInfo';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
@@ -54,6 +25,7 @@ const getInitialValues = (webInfo) => {
 }
 
 export default function WebsiteSocialLinks({ isLoading, webInfo }) {
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
   const UpdateWebSchema = Yup.object().shape({
@@ -82,22 +54,19 @@ export default function WebsiteSocialLinks({ isLoading, webInfo }) {
   return (
     <Card sx={{ p: 3 }}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3} alignItems="flex-end">
-          {SOCIAL_LINKS.map((link) => (
-            <RHFTextField
-              key={link.value}
-              name={link.value}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">{link.icon}</InputAdornment>,
-              }}
-            />
-          ))}
-
+        {/* Social Info */}
+        <Stack sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            Social info
+          </Typography>
+          <SocialInfo />
+        </Stack>
+        <Stack alignItems="flex-end">
           <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>
       </FormProvider>
-    </Card>
+    </Card >
   );
 }

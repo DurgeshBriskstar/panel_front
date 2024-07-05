@@ -5,14 +5,16 @@ import { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Box, Grid, Card, Stack, Typography } from '@mui/material';
+import { Card, Stack, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 // hooks
 import useAuth from 'src/hooks/useAuth';
-// utils
-import { fData } from 'src/utils/formatNumber';
 // components
-import { FormProvider, RHFSwitch, RHFSelect, RHFTextField, RHFUploadAvatar } from 'src/components/hook-form';
+import { FormProvider } from 'src/components/hook-form';
+import GeneralInfo from './form-sections/GeneralInfo';
+import LogoSection from './form-sections/LogoSection';
+import ContactInfo from './form-sections/ContactInfo';
+import AddressInfo from './form-sections/AddressInfo';
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,7 @@ const getInitialValues = (webInfo) => {
 }
 
 export default function WebsiteGeneral({ isLoading, webInfo }) {
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
   const { user } = useAuth();
@@ -86,73 +89,42 @@ export default function WebsiteGeneral({ isLoading, webInfo }) {
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Card sx={{ p: 3 }}>
-            <Box textAlign='center'>
-              <RHFUploadAvatar
-                name="photoURL"
-                accept="image/*"
-                maxSize={3145728}
-                onDrop={handleDrop}
-                onRemove={handleRemove}
-                helperText={
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      mt: 1,
-                      mx: 'auto',
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'text.secondary',
-                    }}
-                  >
-                    Main Logo
-                    <br /> Allowed *.jpeg, *.jpg, *.png, *.gif max size of {fData(3145728)}
-                  </Typography>
-                }
-              />
-            </Box>
-            <Box
-              mt={3}
-              sx={{
-                display: 'grid',
-                rowGap: 3,
-                columnGap: 2,
-                gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
-              }}
-            >
-              <RHFTextField name="displayName" label="Name" />
-              <RHFTextField name="email" label="Email Address" />
+      <Card sx={{ p: 3 }}>
+        {/* Logo Section */}
+        <Stack>
+          <LogoSection />
+        </Stack>
 
-              <RHFTextField name="phoneNumber" label="Phone Number" />
-              <RHFTextField name="address" label="Address" />
+        {/* General Info */}
+        <Stack sx={{ my: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            General info
+          </Typography>
+          <GeneralInfo />
+        </Stack>
 
-              <RHFSelect name="country" label="Country" placeholder="Country">
-                <option value="" />
-                {[].map((option) => (
-                  <option key={option.code} value={option.label}>
-                    {option.label}
-                  </option>
-                ))}
-              </RHFSelect>
+        {/* General Info */}
+        <Stack sx={{ my: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            Contact info
+          </Typography>
+          <ContactInfo />
+        </Stack>
 
-              <RHFTextField name="state" label="State/Region" />
+        {/* General Info */}
+        <Stack sx={{ my: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            Address info
+          </Typography>
+          <AddressInfo />
+        </Stack>
 
-              <RHFTextField name="city" label="City" />
-              <RHFTextField name="zipCode" label="Zip/Code" />
-            </Box>
-
-            <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-              <RHFTextField name="about" multiline rows={4} label="About" />
-
-              <LoadingButton type="submit" variant="contained" loading={isLoading}>
-                Save Changes
-              </LoadingButton>
-            </Stack>
-          </Card>
-        </Grid>
-      </Grid>
+        <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
+            Save Changes
+          </LoadingButton>
+        </Stack>
+      </Card>
     </FormProvider>
   );
 }

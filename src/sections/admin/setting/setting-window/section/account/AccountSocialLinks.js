@@ -1,64 +1,46 @@
-import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 // form
+import * as Yup from 'yup';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
-import { Stack, Card, InputAdornment } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
+import { Card, Stack, Typography, useTheme } from '@mui/material';
 // components
-import Iconify from 'src/components/Iconify';
-import { FormProvider, RHFTextField } from 'src/components/hook-form';
+import { FormProvider } from 'src/components/hook-form';
+import SocialInfo from './form-sections/SocialInfo';
+import { LoadingButton } from '@mui/lab';
 
 // ----------------------------------------------------------------------
 
-const SOCIAL_LINKS = [
-  {
-    value: 'facebookLink',
-    icon: <Iconify icon={'logos:facebook'} width={24} height={24} />,
-  },
-  {
-    value: 'instagramLink',
-    icon: <Iconify icon={'skill-icons:instagram'} width={24} height={24} />,
-  },
-  {
-    value: 'linkedinLink',
-    icon: <Iconify icon={'logos:linkedin-icon'} width={24} height={24} />,
-  },
-  {
-    value: 'twitterLink',
-    icon: <Iconify icon={'logos:twitter'} width={24} height={24} />,
-  },
-];
+const getInitialValues = (webInfo) => {
+  return {
+    facebookLink: webInfo?.facebookLink || '',
+    instagramLink: webInfo?.instagramLink || '',
+    linkedinLink: webInfo?.linkedinLink || '',
+    twitterLink: webInfo?.twitterLink || '',
+    pinterestLink: webInfo?.twitterLink || '',
+    youtubeLink: webInfo?.twitterLink || '',
+  }
+}
 
-// ----------------------------------------------------------------------
-
-AccountSocialLinks.propTypes = {
-  myProfile: PropTypes.shape({
-    facebookLink: PropTypes.string,
-    instagramLink: PropTypes.string,
-    linkedinLink: PropTypes.string,
-    twitterLink: PropTypes.string,
-  }),
-};
-
-export default function AccountSocialLinks({ myProfile }) {
+export default function WebsiteSocialLinks({ isLoading, webInfo }) {
+  const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const defaultValues = {
-    facebookLink: myProfile.facebookLink,
-    instagramLink: myProfile.instagramLink,
-    linkedinLink: myProfile.linkedinLink,
-    twitterLink: myProfile.twitterLink,
-  };
-
-  const methods = useForm({
-    defaultValues,
+  const UpdateWebSchema = Yup.object().shape({
+    displayName: Yup.string().required('Name is required'),
   });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
+  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
+  const values = watch();
+
+  useEffect(() => {
+    if (webInfo) {
+      reset(getInitialValues(webInfo));
+    }
+  }, [webInfo]);
 
   const onSubmit = async () => {
     try {
@@ -72,22 +54,19 @@ export default function AccountSocialLinks({ myProfile }) {
   return (
     <Card sx={{ p: 3 }}>
       <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={3} alignItems="flex-end">
-          {SOCIAL_LINKS.map((link) => (
-            <RHFTextField
-              key={link.value}
-              name={link.value}
-              InputProps={{
-                startAdornment: <InputAdornment position="start">{link.icon}</InputAdornment>,
-              }}
-            />
-          ))}
-
-          <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+        {/* Social Info */}
+        <Stack sx={{ mb: 3 }}>
+          <Typography variant="subtitle1" sx={{ my: 1, color: `${theme.palette.primary.main}`, textAlign: 'left' }}>
+            Social info
+          </Typography>
+          <SocialInfo />
+        </Stack>
+        <Stack alignItems="flex-end">
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>
       </FormProvider>
-    </Card>
+    </Card >
   );
 }
