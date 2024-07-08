@@ -22,7 +22,7 @@ export default function IdentityInfo() {
                     gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
                 }}
             >
-                <RHFDatePicker name="publishDate" format={DateFormat} label="Publish Date" />
+                <RHFDatePicker name="publishDate" minDate={new Date()} format={DateFormat} label="Publish Date" />
                 <RHFTextField name="source" label="Source" />
             </Box>
             <Box

@@ -11,7 +11,7 @@ RHFDatePicker.propTypes = {
     name: PropTypes.string,
 };
 
-export default function RHFDatePicker({ name, format, ...other }) {
+export default function RHFDatePicker({ name, format, minDate, ...other }) {
     const { control, setValue } = useFormContext();
 
     const onDateChange = (val) => {
@@ -28,7 +28,7 @@ export default function RHFDatePicker({ name, format, ...other }) {
                 <DatePicker
                     {...field}
                     label="Select Date"
-                    minDate={new Date()}
+                    minDate={minDate || ""}
                     inputFormat={format}
                     defaultCalendarMonth={new Date()}
                     onChange={onDateChange}

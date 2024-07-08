@@ -8,10 +8,9 @@ import { fData } from 'src/utils/formatNumber';
 
 // ----------------------------------------------------------------------
 
-export default function LogoSection() {
+export default function ProfileImageSection() {
     const [fileInfo, setFileInfo] = useState(null);
-    const { watch, setValue, setError, clearErrors, formState: { errors } } = useFormContext();
-    const values = watch();
+    const { setValue, clearErrors } = useFormContext();
 
     const handleDrop = useCallback(
         (acceptedFiles) => {

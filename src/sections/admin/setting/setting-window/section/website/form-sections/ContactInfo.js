@@ -1,13 +1,11 @@
 // @mui
-import { Box } from '@mui/material';
+import { Box, InputAdornment } from '@mui/material';
 // Hook Form
-import { useFormContext } from 'react-hook-form';
-import { RHFTextField } from 'src/components/hook-form';
+import { RHFPhone, RHFTextField } from 'src/components/hook-form';
+import Iconify from 'src/components/Iconify';
 // ----------------------------------------------------------------------
 
 export default function ContactInfo() {
-    const { watch } = useFormContext();
-    const values = watch();
 
     return (
         <Box
@@ -18,12 +16,32 @@ export default function ContactInfo() {
                 gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
             }}
         >
-            <RHFTextField name="primaryEmail" label="Primary email address" />
-            <RHFTextField name="secondaryEmail" label="Email address" />
+            <RHFTextField
+                name="primaryEmail"
+                label="Primary email address"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Iconify icon={'noto:envelope'} width={24} height={24} />
+                        </InputAdornment>
+                    ),
+                }}
+            />
+            <RHFTextField
+                name="secondaryEmail"
+                label="Email address"
+                InputProps={{
+                    startAdornment: (
+                        <InputAdornment position="start">
+                            <Iconify icon={'noto:envelope'} width={24} height={24} />
+                        </InputAdornment>
+                    ),
+                }}
+            />
 
-            <RHFTextField name="primaryPhone" label="Primary phone number" />
-            <RHFTextField name="secondaryPhone" label="Secondary phone number" />
-            <RHFTextField name="whatsAppPhone" label="Whats'app number" />
+            <RHFPhone name="primaryPhone" label="Contact No." />
+            <RHFPhone name="secondaryPhone" label="Alternate Contact No." />
+            <RHFPhone name="whatsAppPhone" label="Whats'app number" />
         </Box>
     )
 }

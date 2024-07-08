@@ -10,7 +10,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import { FormProvider } from 'src/components/hook-form';
 import PersonalInfo from './form-sections/PersonalInfo';
-import LogoSection from './form-sections/LogoSection';
+import ProfileImageSection from './form-sections/ProfileImageSection';
 import ContactInfo from './form-sections/ContactInfo';
 import AddressInfo from './form-sections/AddressInfo';
 
@@ -18,17 +18,24 @@ import AddressInfo from './form-sections/AddressInfo';
 
 const getInitialValues = (userInfo) => {
   return {
-    displayName: userInfo?.displayName || '',
-    email: userInfo?.email || '',
-    photoURL: userInfo?.photoURL || '',
-    phoneNumber: userInfo?.phoneNumber || '',
-    country: userInfo?.country || '',
-    address: userInfo?.address || '',
-    state: userInfo?.state || '',
-    city: userInfo?.city || '',
-    zipCode: userInfo?.zipCode || '',
+    image: userInfo?.image || '',
+    imageUrl: userInfo?.imageUrl || '',
+    firstName: userInfo?.firstName || '',
+    lastName: userInfo?.lastName || '',
+    gender: userInfo?.gender || '',
+    dateOfBirth: userInfo?.dateOfBirth || '',
     about: userInfo?.about || '',
-    isPublic: userInfo?.isPublic || false,
+    email: userInfo?.email || '',
+    secondaryEmail: userInfo?.secondaryEmail || '',
+    primaryPhone: userInfo?.primaryPhone || '',
+    secondaryPhone: userInfo?.secondaryPhone || '',
+    street: userInfo?.street || '',
+    address: userInfo?.address || '',
+    city: userInfo?.city || '',
+    state: userInfo?.state || '',
+    pinCode: userInfo?.pinCode || '',
+    country: userInfo?.country || '',
+    active: userInfo?.status === 1,
   }
 }
 
@@ -86,9 +93,9 @@ export default function AccountGeneral({ userInfo }) {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Card sx={{ p: 3 }}>
-        {/* Logo Section */}
+        {/* Profile Image Section */}
         <Stack>
-          <LogoSection />
+          <ProfileImageSection />
         </Stack>
 
         {/* Personal Info */}

@@ -7,8 +7,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // @mui
 import { Card, Stack, Typography, useTheme } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-// hooks
-import useAuth from 'src/hooks/useAuth';
 // components
 import { FormProvider } from 'src/components/hook-form';
 import GeneralInfo from './form-sections/GeneralInfo';
@@ -38,15 +36,12 @@ export default function WebsiteGeneral({ isLoading, webInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { user } = useAuth();
-
   const UpdateWebSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
-  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
-  const values = watch();
+  const { setValue, reset, handleSubmit, } = methods;
 
   useEffect(() => {
     if (webInfo) {

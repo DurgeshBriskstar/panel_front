@@ -33,8 +33,7 @@ export default function AccountSocialLinks({ userInfo }) {
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
-  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
-  const values = watch();
+  const { reset, handleSubmit, } = methods;
 
   useEffect(() => {
     if (userInfo) {

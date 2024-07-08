@@ -33,8 +33,7 @@ export default function WebsiteSocialLinks({ isLoading, webInfo }) {
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
-  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
-  const values = watch();
+  const { reset, handleSubmit, } = methods;
 
   useEffect(() => {
     if (webInfo) {
