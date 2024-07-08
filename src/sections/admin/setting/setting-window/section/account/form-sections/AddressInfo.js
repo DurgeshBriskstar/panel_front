@@ -8,8 +8,8 @@ export default function AddressInfo() {
 
     return (
         <>
-            <RHFTextField name="streetAddress" label="Street Address" />
-            <RHFTextField name="address" label="Address" sx={{ mt: 2 }} />
+            <RHFTextField name="address.streetAddress" label="Street Address" />
+            <RHFTextField name="address.address" label="Address" sx={{ mt: 2 }} />
             <Box
                 sx={{
                     display: 'grid',
@@ -19,10 +19,10 @@ export default function AddressInfo() {
                     gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)' },
                 }}
             >
-                <RHFTextField name="city" label="City" />
-                <RHFTextField name="state" label="State/Region" />
-                <RHFTextField name="pinCode" label="Pin/Code" />
-                <RHFTextField name="country" label="Country" />
+                <RHFTextField name="address.city" label="City" />
+                <RHFTextField name="address.state" label="State/Region" />
+                <RHFTextField name="address.pinCode" label="Pin/Code" />
+                <RHFTextField name="address.country" label="Country" />
             </Box>
         </>
     )

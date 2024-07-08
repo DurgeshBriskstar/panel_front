@@ -9,12 +9,17 @@ import { LoadingButton } from '@mui/lab';
 // components
 import { FormProvider } from 'src/components/hook-form';
 import SecurityInfo from './form-sections/SecurityInfo';
+import useAuth from 'src/hooks/useAuth';
+import { useState } from 'react';
 
 // ----------------------------------------------------------------------
 
-export default function AccountChangePassword() {
+export default function AccountChangePassword({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+  const { account } = useAuth();
+
+  const [isLoading, setLoading] = useState(false);
 
   const ChangePassWordSchema = Yup.object().shape({
     oldPassword: Yup.string().required('Old Password is required'),
@@ -39,13 +44,21 @@ export default function AccountChangePassword() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      reset();
-      enqueueSnackbar('Update success!');
+      data.userId = userInfo?._id;
+
+      await account(data, "password").then(originalPromiseResult => {
+        setLoading(false);
+        enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+      }).catch(rejectedValueOrSerializedError => {
+        setLoading(false);
+        enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+      });
     } catch (error) {
-      console.error(error);
+      setLoading(false);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 
@@ -60,7 +73,7 @@ export default function AccountChangePassword() {
           <SecurityInfo />
         </Stack>
         <Stack alignItems="flex-end">
-          <LoadingButton type="submit" variant="contained" loading>
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>

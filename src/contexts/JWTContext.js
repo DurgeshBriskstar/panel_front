@@ -130,21 +130,21 @@ function AuthProvider({ children }) {
         }
     };
 
-    const account = async (data) => {
-        const response = await axios.post('/api/user/information/update', data);
+    const account = async (data, type = "general") => {
+        const response = await axios.post(`/api/user/${type}/update`, data);
         if (response.status) {
             dispatch({
                 type: 'ACCOUNT',
                 payload: {
                     response: {
-                        status: response.status,
+                        success: response.success,
                         message: response.message
                     },
                     user: response.data,
                 },
             });
 
-            const accessToken = window.localStorage.getItem('accessToken');
+            const accessToken = window.sessionStorage.getItem('accessToken');
             if (accessToken && isValidToken(accessToken)) {
                 setSession(accessToken);
                 const user = response.data;
@@ -153,7 +153,7 @@ function AuthProvider({ children }) {
                     payload: {
                         isAuthenticated: true,
                         response: {
-                            status: response.status,
+                            success: response.success,
                             message: response.message
                         },
                         user,
@@ -220,6 +220,7 @@ function AuthProvider({ children }) {
                 method: 'jwt',
                 login,
                 logout,
+                account,
             }}
         >
             {children}

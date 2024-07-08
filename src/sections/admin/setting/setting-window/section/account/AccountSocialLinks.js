@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSnackbar } from 'notistack';
 // form
 import * as Yup from 'yup';
@@ -10,26 +10,34 @@ import { Card, Stack, Typography, useTheme } from '@mui/material';
 import { FormProvider } from 'src/components/hook-form';
 import SocialInfo from './form-sections/SocialInfo';
 import { LoadingButton } from '@mui/lab';
+import useAuth from 'src/hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 const getInitialValues = (userInfo) => {
   return {
-    facebookLink: userInfo?.facebookLink || '',
-    instagramLink: userInfo?.instagramLink || '',
-    linkedinLink: userInfo?.linkedinLink || '',
-    twitterLink: userInfo?.twitterLink || '',
-    pinterestLink: userInfo?.twitterLink || '',
-    youtubeLink: userInfo?.twitterLink || '',
+    socialLinks: {
+      facebookLink: userInfo?.facebookLink || '',
+      instagramLink: userInfo?.instagramLink || '',
+      linkedinLink: userInfo?.linkedinLink || '',
+      twitterLink: userInfo?.twitterLink || '',
+      pinterestLink: userInfo?.twitterLink || '',
+      youtubeLink: userInfo?.twitterLink || '',
+    }
   }
 }
 
 export default function AccountSocialLinks({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+  const { account } = useAuth();
+
+  const [isLoading, setLoading] = useState(false);
 
   const UpdateWebSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required'),
+    socialLinks: Yup.object().shape({
+      facebookLink: Yup.string().required('Facebook link is required'),
+    }),
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
@@ -41,12 +49,21 @@ export default function AccountSocialLinks({ userInfo }) {
     }
   }, [userInfo]);
 
-  const onSubmit = async () => {
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      enqueueSnackbar('Update success!');
+      data.userId = userInfo?._id;
+
+      await account(data, "social").then(originalPromiseResult => {
+        setLoading(false);
+        enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+      }).catch(rejectedValueOrSerializedError => {
+        setLoading(false);
+        enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+      });
     } catch (error) {
-      console.error(error);
+      setLoading(false);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 
@@ -61,7 +78,7 @@ export default function AccountSocialLinks({ userInfo }) {
           <SocialInfo />
         </Stack>
         <Stack alignItems="flex-end">
-          <LoadingButton type="submit" variant="contained" loading>
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>

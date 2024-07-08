@@ -45,7 +45,7 @@ export default function SocialInfo() {
             {SOCIAL_LINKS.map((link) => (
                 <RHFTextField
                     key={link.value}
-                    name={link.value}
+                    name={`socialLinks.${link.value}`}
                     InputProps={{
                         startAdornment: <InputAdornment position="start">{link.icon}</InputAdornment>,
                     }}

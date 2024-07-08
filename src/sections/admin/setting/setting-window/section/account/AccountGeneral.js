@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useSnackbar } from 'notistack';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // form
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -14,6 +14,7 @@ import ProfileImageSection from './form-sections/ProfileImageSection';
 import ContactInfo from './form-sections/ContactInfo';
 import AddressInfo from './form-sections/AddressInfo';
 import { fileToBaseURL } from 'src/utils/base64';
+import useAuth from 'src/hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
@@ -29,12 +30,14 @@ const getInitialValues = (userInfo) => {
     secondaryEmail: userInfo?.secondaryEmail || '',
     primaryPhone: userInfo?.primaryPhone || '',
     secondaryPhone: userInfo?.secondaryPhone || '',
-    streetAddress: userInfo?.streetAddress || '',
-    address: userInfo?.address || '',
-    city: userInfo?.city || '',
-    state: userInfo?.state || '',
-    pinCode: userInfo?.pinCode || '',
-    country: userInfo?.country || '',
+    address: {
+      streetAddress: userInfo?.streetAddress || '',
+      address: userInfo?.address || '',
+      city: userInfo?.city || '',
+      state: userInfo?.state || '',
+      pinCode: userInfo?.pinCode || '',
+      country: userInfo?.country || '',
+    },
     active: userInfo?.status === 1,
   }
 }
@@ -42,6 +45,9 @@ const getInitialValues = (userInfo) => {
 export default function AccountGeneral({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
+  const { account } = useAuth();
+
+  const [isLoading, setLoading] = useState(false);
 
   const UpdateWebSchema = Yup.object().shape({
     firstName: Yup.string().required('firstName is required'),
@@ -50,8 +56,7 @@ export default function AccountGeneral({ userInfo }) {
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
-  const { setValue, reset, control, formState: { errors }, watch, handleSubmit, } = methods;
-  const values = watch();
+  const { reset, handleSubmit, } = methods;
 
   useEffect(() => {
     if (userInfo) {
@@ -60,17 +65,25 @@ export default function AccountGeneral({ userInfo }) {
   }, [userInfo]);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       let baseURL = data.image;
       if (typeof data.image === 'object' && data.image) {
         baseURL = await fileToBaseURL(data.image);
       }
       data.image = baseURL;
-      console.log("data", data);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      enqueueSnackbar('Update success!');
+      data.userId = userInfo?._id;
+
+      await account(data, "general").then(originalPromiseResult => {
+        setLoading(false);
+        enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+      }).catch(rejectedValueOrSerializedError => {
+        setLoading(false);
+        enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+      });
     } catch (error) {
-      console.error(error);
+      setLoading(false);
+      enqueueSnackbar(error.message, { variant: 'error' });
     }
   };
 
@@ -107,7 +120,7 @@ export default function AccountGeneral({ userInfo }) {
         </Stack>
 
         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-          <LoadingButton type="submit" variant="contained" loading={false}>
+          <LoadingButton type="submit" variant="contained" loading={isLoading}>
             Save Changes
           </LoadingButton>
         </Stack>
