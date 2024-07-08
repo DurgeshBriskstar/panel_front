@@ -13,13 +13,13 @@ import PersonalInfo from './form-sections/PersonalInfo';
 import ProfileImageSection from './form-sections/ProfileImageSection';
 import ContactInfo from './form-sections/ContactInfo';
 import AddressInfo from './form-sections/AddressInfo';
+import { fileToBaseURL } from 'src/utils/base64';
 
 // ----------------------------------------------------------------------
 
 const getInitialValues = (userInfo) => {
   return {
-    image: userInfo?.image || '',
-    imageUrl: userInfo?.imageUrl || '',
+    image: userInfo?.image ? userInfo?.imageUrl : "",
     firstName: userInfo?.firstName || '',
     lastName: userInfo?.lastName || '',
     gender: userInfo?.gender || '',
@@ -29,7 +29,7 @@ const getInitialValues = (userInfo) => {
     secondaryEmail: userInfo?.secondaryEmail || '',
     primaryPhone: userInfo?.primaryPhone || '',
     secondaryPhone: userInfo?.secondaryPhone || '',
-    street: userInfo?.street || '',
+    streetAddress: userInfo?.streetAddress || '',
     address: userInfo?.address || '',
     city: userInfo?.city || '',
     state: userInfo?.state || '',
@@ -44,7 +44,9 @@ export default function AccountGeneral({ userInfo }) {
   const { enqueueSnackbar } = useSnackbar();
 
   const UpdateWebSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required'),
+    firstName: Yup.string().required('firstName is required'),
+    email: Yup.string().required('Email is required'),
+    gender: Yup.string().required('Gender is required'),
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(userInfo), });
@@ -57,31 +59,13 @@ export default function AccountGeneral({ userInfo }) {
     }
   }, [userInfo]);
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-
-      if (file) {
-        setValue(
-          'photoURL',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
-      }
-    },
-    [setValue]
-  );
-
-  const handleRemove = useCallback(
-    () => {
-      setValue('photoURL', null);
-    },
-    [setValue]
-  );
-
   const onSubmit = async (data) => {
     try {
+      let baseURL = data.image;
+      if (typeof data.image === 'object' && data.image) {
+        baseURL = await fileToBaseURL(data.image);
+      }
+      data.image = baseURL;
       console.log("data", data);
       await new Promise((resolve) => setTimeout(resolve, 500));
       enqueueSnackbar('Update success!');
@@ -123,7 +107,7 @@ export default function AccountGeneral({ userInfo }) {
         </Stack>
 
         <Stack spacing={3} alignItems="flex-end" sx={{ mt: 3 }}>
-          <LoadingButton type="submit" variant="contained" loading>
+          <LoadingButton type="submit" variant="contained" loading={false}>
             Save Changes
           </LoadingButton>
         </Stack>

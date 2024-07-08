@@ -26,6 +26,7 @@ export default function ContactInfo() {
                         </InputAdornment>
                     ),
                 }}
+                disabled
             />
             <RHFTextField
                 name="secondaryEmail"
