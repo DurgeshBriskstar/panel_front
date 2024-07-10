@@ -42,6 +42,9 @@ export const DEFAULT_COLOR = [
     '#7030a0', // Dark Purpal
     '#f4b084', // Peach
     '#454F5B', // theme.palette.grey[700]
+    '#000000', // theme.palette.grey[700]
+    '#FFFFFF', // theme.palette.grey[700]
+    '#00FFFF', // Cyan
 ];
 export const DEFAULT_GENDER = [
     { id: '1', name: 'Male', value: 'male' },

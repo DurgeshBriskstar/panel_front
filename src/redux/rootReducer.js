@@ -3,8 +3,9 @@ import { combineReducers } from 'redux';
 // slices
 import webReducer from './slices/webInfo';
 import categoryReducer from './slices/category';
-import sliderReducer from './slices/slider';
 import blogReducer from './slices/blog';
+import sliderReducer from './slices/slider';
+import graphicReducer from './slices/graphic';
 
 // ----------------------------------------------------------------------
 
@@ -17,8 +18,9 @@ const rootPersistConfig = {
 const rootReducer = combineReducers({
     webInfo: webReducer,
     category: categoryReducer,
-    slider: sliderReducer,
     blog: blogReducer,
+    slider: sliderReducer,
+    graphic: graphicReducer,
 });
 
 export { rootPersistConfig, rootReducer };

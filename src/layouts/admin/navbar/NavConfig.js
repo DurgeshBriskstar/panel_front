@@ -26,6 +26,7 @@ const navConfig = [
                     { title: 'Blogs & News', path: PATH_ADMIN.blog.list },
                     { title: 'Categories', path: PATH_ADMIN.category.list },
                     { title: 'Sliders', path: PATH_ADMIN.slider.list },
+                    { title: 'Graphics', path: PATH_ADMIN.graphic.list },
                 ],
             }
         ],

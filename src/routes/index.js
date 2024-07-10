@@ -185,6 +185,47 @@ export default function MainRouter() {
                         },
                     ],
                 },
+                {
+                    path: 'graphics',
+                    children: [
+                        {
+                            element: <Navigate to="/admin/graphics/list" replace />,
+                            index: true
+                        },
+                        {
+                            path: 'list',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADGraphic />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'card',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADGraphic />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'add',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADGraphicForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'edit/:id',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADGraphicForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                    ],
+                },
             ],
         },
 
@@ -345,6 +386,10 @@ const ADCategoryForm = Loadable(lazy(() => import('../pages/admin/Category/Categ
 // SLIDER
 const ADSlider = Loadable(lazy(() => import('../pages/admin/Slider/SliderList')));
 const ADSliderForm = Loadable(lazy(() => import('../pages/admin/Slider/SliderAddEdit')));
+
+// GRAPHIC
+const ADGraphic = Loadable(lazy(() => import('../pages/admin/Graphic/GraphicList')));
+const ADGraphicForm = Loadable(lazy(() => import('../pages/admin/Graphic/GraphicAddEdit')));
 
 // BLOG & NEWS
 const ADBlog = Loadable(lazy(() => import('../pages/admin/Blog/BlogList')));

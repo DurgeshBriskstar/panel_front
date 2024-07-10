@@ -6,7 +6,7 @@ import Page from '../../../components/Page';
 
 // ----------------------------------------------------------------------
 
-export default function GeneralBooking() {
+export default function Dashboard() {
     return (
         <Page title="Dashboard">
             <Container>

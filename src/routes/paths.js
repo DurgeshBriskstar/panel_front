@@ -50,7 +50,14 @@ export const PATH_ADMIN = {
         list: path(ROOTS_ADMIN, '/sliders/list'),
         new: path(ROOTS_ADMIN, '/sliders/add'),
         sliderEdit: (id) => path(ROOTS_ADMIN, `/sliders/edit/${id}`),
-    }
+    },
+    graphic: {
+        root: path(ROOTS_ADMIN, '/graphics'),
+        list: path(ROOTS_ADMIN, '/graphics/list'),
+        card: path(ROOTS_ADMIN, '/graphics/card'),
+        new: path(ROOTS_ADMIN, '/graphics/add'),
+        graphicEdit: (id) => path(ROOTS_ADMIN, `/graphics/edit/${id}`),
+    },
 };
 
 export const PATH_BRANCH = {
