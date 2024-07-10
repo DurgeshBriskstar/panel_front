@@ -66,7 +66,7 @@ const CanvasImage = ({ image, icon }) => {
                 ctx.restore();
 
                 // Draw title below the round image
-                ctx.font = 'bold 60px Arial';
+                ctx.font = 'bold 65px Arial';
                 ctx.fillStyle = image?.palette?.title || 'tomato';
                 ctx.textAlign = 'center';
                 ctx.fillText(image?.title, canvas.width / 2, roundImgY + roundImgSize + 80);
@@ -102,7 +102,7 @@ const CanvasImage = ({ image, icon }) => {
                     const partWidths = [];
 
                     parts.forEach(part => {
-                        context.font = 'bold 42px Arial';
+                        context.font = 'bold 50px Arial';
                         partWidths.push(context.measureText(part).width);
                     });
 
@@ -112,10 +112,10 @@ const CanvasImage = ({ image, icon }) => {
 
                     parts.forEach((part, index) => {
                         if (index % 2 === 1) {
-                            context.font = 'bold 42px Arial';
+                            context.font = 'bold 50px Arial';
                             context.fillStyle = image?.palette?.highlight || image?.palette?.title;
                         } else {
-                            context.font = 'bold 42px Arial';
+                            context.font = 'bold 50px Arial';
                             context.fillStyle = image?.palette?.description || '#fff';
                         }
 
@@ -124,7 +124,7 @@ const CanvasImage = ({ image, icon }) => {
                     });
                 };
 
-                const maxWidth = canvas.width + 500;
+                const maxWidth = canvas.width + 300;
                 const lineHeight = 80;
                 const descriptionStartY = roundImgY + roundImgSize + 180;
 
