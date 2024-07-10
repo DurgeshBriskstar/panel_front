@@ -21,6 +21,7 @@ export default function ColorPalette() {
             <RHFColorPicker name="palette.title" label="Title color" />
             <RHFColorPicker name="palette.description" label="Description color" />
             <RHFColorPicker name="palette.background" label="Background color" />
+            <RHFColorPicker name="palette.highlight" label="Highlight color" />
         </Box>
     )
 }

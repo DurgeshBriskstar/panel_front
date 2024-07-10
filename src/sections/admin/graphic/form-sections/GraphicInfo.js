@@ -20,7 +20,7 @@ export default function GraphicInfo() {
             }}
         >
             <RHFTextField name="title" label="Graphic title" />
-            <RHFTextField name="shortDesc" label="Short description" multiline rows={2} />
+            <RHFTextField name="shortDesc" label="Short description" multiline rows={2} helperText="Recommended max word count is 30." />
         </Box>
     )
 }

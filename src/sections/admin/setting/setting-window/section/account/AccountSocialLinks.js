@@ -17,12 +17,12 @@ import useAuth from 'src/hooks/useAuth';
 const getInitialValues = (userInfo) => {
   return {
     socialLinks: {
-      facebookLink: userInfo?.facebookLink || '',
-      instagramLink: userInfo?.instagramLink || '',
-      linkedinLink: userInfo?.linkedinLink || '',
-      twitterLink: userInfo?.twitterLink || '',
-      pinterestLink: userInfo?.twitterLink || '',
-      youtubeLink: userInfo?.twitterLink || '',
+      facebookLink: userInfo?.socialLinks?.facebookLink || '',
+      instagramLink: userInfo?.socialLinks?.instagramLink || '',
+      linkedinLink: userInfo?.socialLinks?.linkedinLink || '',
+      twitterLink: userInfo?.socialLinks?.twitterLink || '',
+      pinterestLink: userInfo?.socialLinks?.pinterestLink || '',
+      youtubeLink: userInfo?.socialLinks?.youtubeLink || '',
     }
   }
 }

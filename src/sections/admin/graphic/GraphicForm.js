@@ -45,6 +45,7 @@ const getInitialValues = (graphic) => {
       title: graphic?.palette?.title || defaultPalette?.title,
       description: graphic?.palette?.description || defaultPalette?.description,
       background: graphic?.palette?.background || defaultPalette?.background,
+      highlight: graphic?.palette?.highlight || defaultPalette?.highlight,
     },
   }
 }

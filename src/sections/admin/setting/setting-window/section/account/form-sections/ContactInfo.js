@@ -1,11 +1,13 @@
 // @mui
 import { Box, InputAdornment } from '@mui/material';
+import { useFormContext } from 'react-hook-form';
 // Hook Form
 import { RHFPhone, RHFTextField } from 'src/components/hook-form';
 import Iconify from 'src/components/Iconify';
 // ----------------------------------------------------------------------
 
 export default function ContactInfo() {
+    const { watch, getValues } = useFormContext();
 
     return (
         <Box

@@ -106,7 +106,8 @@ export default function GraphicList() {
                         title: graphic?.title,
                         image: graphic?.imageUrl,
                         description: graphic?.shortDesc,
-                        palette: graphic?.palette || {}
+                        palette: graphic?.palette || {},
+                        download: true
                     };
 
                     tempArr.push(item);

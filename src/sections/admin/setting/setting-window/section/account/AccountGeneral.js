@@ -31,12 +31,12 @@ const getInitialValues = (userInfo) => {
     primaryPhone: userInfo?.primaryPhone || '',
     secondaryPhone: userInfo?.secondaryPhone || '',
     address: {
-      streetAddress: userInfo?.streetAddress || '',
-      address: userInfo?.address || '',
-      city: userInfo?.city || '',
-      state: userInfo?.state || '',
-      pinCode: userInfo?.pinCode || '',
-      country: userInfo?.country || '',
+      streetAddress: userInfo?.address?.streetAddress || '',
+      address: userInfo?.address?.address || '',
+      city: userInfo?.address?.city || '',
+      state: userInfo?.address?.state || '',
+      pinCode: userInfo?.address?.pinCode || '',
+      country: userInfo?.address?.country || '',
     },
     active: userInfo?.status === 1,
   }

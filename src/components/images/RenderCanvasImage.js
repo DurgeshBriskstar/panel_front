@@ -1,6 +1,7 @@
 // @mui
 import { Box } from '@mui/material';
 import { useEffect, useRef } from 'react';
+import Iconify from '../Iconify';
 
 // ----------------------------------------------------------------------
 
@@ -23,6 +24,8 @@ const CanvasImage = ({ image, icon }) => {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext('2d');
         const img = new Image();
+
+        img.crossOrigin = 'anonymous';
 
         img.onload = () => {
 
@@ -50,7 +53,7 @@ const CanvasImage = ({ image, icon }) => {
             roundImg.onload = () => {
                 const roundImgSize = 250;
                 const roundImgX = (canvas.width - roundImgSize) / 2;
-                const roundImgY = 700;
+                const roundImgY = 730;
 
                 ctx.save();
                 ctx.beginPath();
@@ -63,16 +66,16 @@ const CanvasImage = ({ image, icon }) => {
                 ctx.restore();
 
                 // Draw title below the round image
-                ctx.font = 'bold 72px Arial';
+                ctx.font = 'bold 60px Arial';
                 ctx.fillStyle = image?.palette?.title || 'tomato';
                 ctx.textAlign = 'center';
-                ctx.fillText(image?.title, canvas.width / 2, roundImgY + roundImgSize + 70);
+                ctx.fillText(image?.title, canvas.width / 2, roundImgY + roundImgSize + 80);
 
                 // Wrap and draw description text
                 const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
                     const words = text.split(' ');
                     let line = '';
-                    let lineNumber = 0;
+                    let lines = [];
 
                     for (let n = 0; n < words.length; n++) {
                         const testLine = line + words[n] + ' ';
@@ -80,23 +83,54 @@ const CanvasImage = ({ image, icon }) => {
                         const testWidth = metrics.width;
 
                         if (testWidth > maxWidth && n > 0) {
-                            context.fillText(line, x, y + (lineNumber * lineHeight));
+                            lines.push(line);
                             line = words[n] + ' ';
-                            lineNumber++;
                         } else {
                             line = testLine;
                         }
                     }
-                    context.fillText(line, x, y + (lineNumber * lineHeight));
+                    lines.push(line);
+
+                    lines.forEach((line, index) => {
+                        drawStyledText(context, line, x, y + (index * lineHeight), maxWidth);
+                    });
                 };
 
-                const maxWidth = canvas.width - 20; // 10px padding on each side
+                const drawStyledText = (context, text, centerX, y, maxWidth) => {
+                    const parts = text.split('#');
+                    let offsetX = centerX;
+                    const partWidths = [];
+
+                    parts.forEach(part => {
+                        context.font = 'bold 42px Arial';
+                        partWidths.push(context.measureText(part).width);
+                    });
+
+                    const totalWidth = partWidths.reduce((acc, width) => acc + width, 0);
+
+                    offsetX = centerX - totalWidth / 2;
+
+                    parts.forEach((part, index) => {
+                        if (index % 2 === 1) {
+                            context.font = 'bold 42px Arial';
+                            context.fillStyle = image?.palette?.highlight || image?.palette?.title;
+                        } else {
+                            context.font = 'bold 42px Arial';
+                            context.fillStyle = image?.palette?.description || '#fff';
+                        }
+
+                        context.fillText(part, offsetX, y);
+                        offsetX += partWidths[index];
+                    });
+                };
+
+                const maxWidth = canvas.width + 500;
                 const lineHeight = 80;
-                const descriptionStartY = roundImgY + roundImgSize + 160;
+                const descriptionStartY = roundImgY + roundImgSize + 180;
 
                 ctx.font = 'bold 60px Arial';
                 ctx.fillStyle = image?.palette?.description || '#fff';
-                ctx.textAlign = 'center';
+                ctx.textAlign = 'left';
 
                 wrapText(ctx, image?.description, canvas.width / 2, descriptionStartY, maxWidth, lineHeight);
             };
@@ -107,7 +141,33 @@ const CanvasImage = ({ image, icon }) => {
         img.src = image?.image;
     }, [image, icon]);
 
+    const handleDownload = () => {
+        const canvas = canvasRef.current;
+        const link = document.createElement('a');
+        link.href = canvas.toDataURL('image/png');
+        link.download = 'download.png';
+        link.click();
+    };
+
     return (
-        <canvas ref={canvasRef} style={{ margin: '10px', borderRadius: 12, width: '200px', height: '250px' }} />
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+            <canvas ref={canvasRef} style={{ margin: '10px', borderRadius: 12, width: '200px', height: '250px' }} />
+            <button
+                onClick={handleDownload}
+                style={{
+                    position: 'absolute',
+                    top: '10px',
+                    right: '10px',
+                    padding: '5px 10px',
+                    backgroundColor: '#000',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer'
+                }}
+            >
+                <Iconify icon={'eva:download-fill'} width="14px" height="14px" />
+            </button>
+        </div>
     );
 };
