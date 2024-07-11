@@ -16,7 +16,7 @@ import { MyAvatar } from '../../../components/images';
 const RootStyle = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: theme.spacing(2, 2.5),
+    padding: theme.spacing(2, 1),
     borderRadius: Number(theme.shape.borderRadius) * 1.5,
     backgroundColor: theme.palette.grey[500_12],
     transition: theme.transitions.create('opacity', {
@@ -46,7 +46,7 @@ export default function NavbarAccount({ isCollapse }) {
 
                 <Box
                     sx={{
-                        ml: 2,
+                        ml: 1,
                         transition: (theme) =>
                             theme.transitions.create('width', {
                                 duration: theme.transitions.duration.shorter,

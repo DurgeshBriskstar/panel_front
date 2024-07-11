@@ -133,6 +133,7 @@ function AuthProvider({ children }) {
     const account = async (data, type = "general") => {
         const response = await axios.post(`/api/user/${type}/update`, data);
         if (response.status) {
+            initializeAuth();
             dispatch({
                 type: 'ACCOUNT',
                 payload: {

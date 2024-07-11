@@ -39,7 +39,7 @@ const getInitialValues = (graphic) => {
     image: graphic?.image ? graphic?.imageUrl : "",
     title: graphic?.title || "",
     shortDesc: graphic?.shortDesc || "",
-    description: graphic?.description || "",
+    footerText: graphic?.footerText || "",
     active: graphic?.status === 1,
     palette: {
       title: graphic?.palette?.title || defaultPalette?.title,

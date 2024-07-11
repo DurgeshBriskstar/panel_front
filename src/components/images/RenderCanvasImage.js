@@ -124,7 +124,7 @@ const CanvasImage = ({ image, icon }) => {
                     });
                 };
 
-                const maxWidth = canvas.width + 300;
+                const maxWidth = canvas.width + 250;
                 const lineHeight = 80;
                 const descriptionStartY = roundImgY + roundImgSize + 180;
 
@@ -133,6 +133,12 @@ const CanvasImage = ({ image, icon }) => {
                 ctx.textAlign = 'left';
 
                 wrapText(ctx, image?.description, canvas.width / 2, descriptionStartY, maxWidth, lineHeight);
+
+                // Draw "Hello" at the bottom of the canvas
+                ctx.font = 'bold 30px Arial';
+                ctx.fillStyle = image?.palette?.description; // Change the color if needed
+                ctx.textAlign = 'center';
+                ctx.fillText(image?.footerText || "", canvas.width / 2, canvas.height - 30);
             };
 
             roundImg.src = icon?.image;

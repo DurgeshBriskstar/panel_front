@@ -106,6 +106,7 @@ export default function GraphicList() {
                         title: graphic?.title,
                         image: graphic?.imageUrl,
                         description: graphic?.shortDesc,
+                        footerText: graphic?.footerText,
                         palette: graphic?.palette || {},
                         download: true
                     };

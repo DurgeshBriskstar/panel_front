@@ -11,6 +11,7 @@ import useIsMountedRef from 'src/hooks/useIsMountedRef';
 import { useSnackbar } from 'notistack';
 import { PATH_ADMIN, PATH_AUTH } from 'src/routes/paths';
 import Iconify from 'src/components/Iconify';
+import NavbarAccount from '../navbar/NavbarAccount';
 
 // ----------------------------------------------------------------------
 
@@ -87,6 +88,7 @@ export default function AccountPopover() {
                     },
                 }}
             >
+                <NavbarAccount />
                 <Box sx={{ my: 1.5, px: 2.5 }}>
                     <Typography variant="subtitle2" noWrap>
                         {user?.name}
