@@ -93,7 +93,7 @@ function AuthProvider({ children }) {
 
             if (accessToken && isValidToken(accessToken)) {
                 setSession(accessToken);
-                const response = await axios.get('/api/user/information');
+                const response = await axios.get('/api/users/information');
                 const user = response.data;
                 dispatch({
                     type: 'INITIALIZE',
@@ -131,7 +131,7 @@ function AuthProvider({ children }) {
     };
 
     const account = async (data, type = "general") => {
-        const response = await axios.post(`/api/user/${type}/update`, data);
+        const response = await axios.post(`/api/users/${type}/update`, data);
         if (response.status) {
             initializeAuth();
             dispatch({

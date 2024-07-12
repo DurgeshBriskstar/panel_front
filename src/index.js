@@ -1,3 +1,6 @@
+// scroll bar
+import 'simplebar/src/simplebar.css';
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import locale from 'date-fns/locale/en-US'; // Monday first

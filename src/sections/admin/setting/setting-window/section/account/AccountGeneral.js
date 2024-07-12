@@ -46,6 +46,7 @@ export default function AccountGeneral({ userInfo }) {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
   const { account } = useAuth();
+  const { user } = useAuth();
 
   const [isLoading, setLoading] = useState(false);
 
@@ -72,15 +73,21 @@ export default function AccountGeneral({ userInfo }) {
         baseURL = await fileToBaseURL(data.image);
       }
       data.image = baseURL;
-      data.userId = userInfo?._id;
+      data.userId = userInfo?._id || null;
 
-      await account(data, "general").then(originalPromiseResult => {
+      if (user?._id === userInfo?._id) {
+        await account(data, "general").then(originalPromiseResult => {
+          setLoading(false);
+          enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+        }).catch(rejectedValueOrSerializedError => {
+          setLoading(false);
+          enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+        });
+      } else {
+        console.log("data", data);
         setLoading(false);
-        enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
-      }).catch(rejectedValueOrSerializedError => {
-        setLoading(false);
-        enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
-      });
+      }
+
     } catch (error) {
       setLoading(false);
       enqueueSnackbar(error.message, { variant: 'error' });

@@ -25,7 +25,6 @@ export default function PersonalInfo() {
                     name="firstName"
                     label="First Name"
                     inputProps={{ maxLength: 50 }}
-                    autoFocus
                 />
                 <RHFTextField
                     name="lastName"

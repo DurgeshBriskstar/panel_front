@@ -4,7 +4,6 @@ import { Container, Tab, Box, Tabs } from '@mui/material';
 // hooks
 import useTabs from 'src/hooks/useTabs';
 import useSettings from 'src/hooks/useSettings';
-import useAuth from 'src/hooks/useAuth';
 // components
 import Page from 'src/components/Page';
 import Iconify from 'src/components/Iconify';
@@ -13,9 +12,8 @@ import { AccountChangePassword, AccountGeneral, AccountSocialLinks } from './acc
 
 // ----------------------------------------------------------------------
 
-export default function UserAccount() {
+export default function UserAccount({ isEdit, user }) {
   const { themeStretch } = useSettings();
-  const { user } = useAuth();
 
   const { currentTab, onChangeTab } = useTabs('general');
 
@@ -23,17 +21,20 @@ export default function UserAccount() {
     {
       value: 'general',
       icon: <Iconify icon={'ic:round-account-box'} width={20} height={20} />,
-      component: <AccountGeneral userInfo={user} />,
+      component: <AccountGeneral isEdit={isEdit} userInfo={user} />,
+      show: true
     },
     {
       value: 'social_links',
       icon: <Iconify icon={'eva:share-fill'} width={20} height={20} />,
-      component: <AccountSocialLinks userInfo={user} />,
+      component: <AccountSocialLinks isEdit={isEdit} userInfo={user} />,
+      show: isEdit
     },
     {
       value: 'security',
       icon: <Iconify icon={'ic:round-vpn-key'} width={20} height={20} />,
-      component: <AccountChangePassword userInfo={user} />,
+      component: <AccountChangePassword isEdit={isEdit} userInfo={user} />,
+      show: isEdit
     },
   ];
 
@@ -48,7 +49,7 @@ export default function UserAccount() {
           onChange={onChangeTab}
           sx={{ background: '#edeff1', px: 2, borderRadius: 1 }}
         >
-          {ACCOUNT_TABS.map((tab) => (
+          {ACCOUNT_TABS.map((tab) => tab.show && (
             <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />
           ))}
         </Tabs>

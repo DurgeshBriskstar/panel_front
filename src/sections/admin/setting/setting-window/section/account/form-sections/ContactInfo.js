@@ -8,6 +8,7 @@ import Iconify from 'src/components/Iconify';
 
 export default function ContactInfo() {
     const { watch, getValues } = useFormContext();
+    const values = getValues();
 
     return (
         <Box
@@ -28,7 +29,7 @@ export default function ContactInfo() {
                         </InputAdornment>
                     ),
                 }}
-                disabled
+                disabled={values?.email !== ''}
             />
             <RHFTextField
                 name="secondaryEmail"

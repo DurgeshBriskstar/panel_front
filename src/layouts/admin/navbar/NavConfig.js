@@ -18,6 +18,7 @@ const navConfig = [
         subheader: '',
         items: [
             { title: 'dashboard', path: PATH_ADMIN.dashboard, icon: getIcon('mdi:monitor-dashboard') },
+            { title: 'users', path: PATH_ADMIN.user.root, icon: getIcon('raphael:users') },
             {
                 title: 'blog & news',
                 path: PATH_ADMIN.category.root,

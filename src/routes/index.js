@@ -87,6 +87,39 @@ export default function MainRouter() {
                     ],
                 },
                 {
+                    path: 'users',
+                    children: [
+                        {
+                            element: <Navigate to="/admin/users/list" replace />,
+                            index: true
+                        },
+                        {
+                            path: 'list',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADUser />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'add',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADUserForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                        {
+                            path: 'edit/:id',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADUserForm />
+                                </RoleBasedGuard>
+                            ),
+                        },
+                    ],
+                },
+                {
                     path: 'categories',
                     children: [
                         {
@@ -378,6 +411,11 @@ const ResetPassword = Loadable(lazy(() => import('../pages/auth/ResetPassword'))
 const AdminDashboard = Loadable(lazy(() => import('../pages/admin/Dashboard')));
 // ACCOUNT
 const AdminSetting = Loadable(lazy(() => import('../pages/admin/setting/Setting')));
+
+// USER
+const ADUser = Loadable(lazy(() => import('../pages/admin/User/UserList')));
+const ADUserForm = Loadable(lazy(() => import('../pages/admin/User/UserAddEdit')));
+
 
 // CATEGORY
 const ADCategory = Loadable(lazy(() => import('../pages/admin/Category/CategoryList')));

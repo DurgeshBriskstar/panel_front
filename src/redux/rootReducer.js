@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 // import { persistReducer } from 'redux-persist';
 // slices
+import userReducer from './slices/user';
 import webReducer from './slices/webInfo';
 import categoryReducer from './slices/category';
 import blogReducer from './slices/blog';
@@ -16,6 +17,7 @@ const rootPersistConfig = {
 };
 
 const rootReducer = combineReducers({
+    user: userReducer,
     webInfo: webReducer,
     category: categoryReducer,
     blog: blogReducer,
