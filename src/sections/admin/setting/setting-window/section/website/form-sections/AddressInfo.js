@@ -21,7 +21,7 @@ export default function AddressInfo() {
             >
                 <RHFTextField name="city" label="City" />
                 <RHFTextField name="state" label="State/Region" />
-                <RHFTextField name="pinCode" label="Pin/Code" />
+                <RHFTextField name="pincode" label="Pin/Code" />
                 <RHFTextField name="country" label="Country" />
             </Box>
         </>

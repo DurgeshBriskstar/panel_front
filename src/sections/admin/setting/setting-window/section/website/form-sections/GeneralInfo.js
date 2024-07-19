@@ -23,7 +23,7 @@ export default function GeneralInfo() {
                 <RHFTextField name="subTitle" label="Sub title" />
                 <RHFTextField name="category" label="Category" />
             </Box>
-            <RHFTextField name="about" multiline rows={4} label="About" />
+            <RHFTextField name="aboutUs" multiline rows={4} label="About" />
         </>
     )
 }

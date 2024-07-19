@@ -13,31 +13,48 @@ import GeneralInfo from './form-sections/GeneralInfo';
 import LogoSection from './form-sections/LogoSection';
 import ContactInfo from './form-sections/ContactInfo';
 import AddressInfo from './form-sections/AddressInfo';
+import { useDispatch } from 'src/redux/store';
+import { saveWebInfo } from 'src/redux/slices/webInfo';
+import { fileToBaseURL } from 'src/utils/base64';
 
 // ----------------------------------------------------------------------
 
 const getInitialValues = (webInfo) => {
   return {
-    displayName: webInfo?.displayName || '',
-    email: webInfo?.email || '',
-    photoURL: webInfo?.photoURL || '',
-    phoneNumber: webInfo?.phoneNumber || '',
-    country: webInfo?.country || '',
+    image: webInfo?.logo ? webInfo?.logoUrl : "",
+    title: webInfo?.title || '',
+    subTitle: webInfo?.subTitle || '',
+    category: webInfo?.category || '',
+    aboutUs: webInfo?.aboutUs || '',
+    primaryEmail: webInfo?.primaryEmail || '',
+    secondaryEmail: webInfo?.secondaryEmail || '',
+    primaryPhone: webInfo?.primaryPhone || '',
+    secondaryPhone: webInfo?.secondaryPhone || '',
+    whatsAppPhone: webInfo?.whatsAppPhone || '',
+
+    facebookLink: webInfo?.facebookLink || '',
+    linkedinLink: webInfo?.linkedinLink || '',
+    instagramLink: webInfo?.instagramLink || '',
+    twitterLink: webInfo?.twitterLink || '',
+    pinterestLink: webInfo?.pinterestLink || '',
+    youtubeLink: webInfo?.youtubeLink || '',
+
+    streetAddress: webInfo?.streetAddress || '',
     address: webInfo?.address || '',
-    state: webInfo?.state || '',
     city: webInfo?.city || '',
-    zipCode: webInfo?.zipCode || '',
-    about: webInfo?.about || '',
-    isPublic: webInfo?.isPublic || false,
+    state: webInfo?.state || '',
+    pincode: webInfo?.pincode || '',
+    country: webInfo?.country || '',
   }
 }
 
 export default function WebsiteGeneral({ isLoading, webInfo }) {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const UpdateWebSchema = Yup.object().shape({
-    displayName: Yup.string().required('Name is required'),
+    title: Yup.string().required('Title is required'),
   });
 
   const methods = useForm({ resolver: yupResolver(UpdateWebSchema), defaultValues: getInitialValues(webInfo), });
@@ -49,34 +66,25 @@ export default function WebsiteGeneral({ isLoading, webInfo }) {
     }
   }, [webInfo]);
 
-  const handleDrop = useCallback(
-    (acceptedFiles) => {
-      const file = acceptedFiles[0];
-
-      if (file) {
-        setValue(
-          'photoURL',
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        );
-      }
-    },
-    [setValue]
-  );
-
-  const handleRemove = useCallback(
-    () => {
-      setValue('photoURL', null);
-    },
-    [setValue]
-  );
-
   const onSubmit = async (data) => {
     try {
-      console.log("data", data);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-      enqueueSnackbar('Update success!');
+      if (webInfo?._id) {
+        data.id = webInfo?._id;
+      }
+      let baseURL = data.image;
+      if (typeof data.image === 'object' && data.image) {
+        baseURL = await fileToBaseURL(data.image);
+      }
+      data.image = baseURL;
+
+      dispatch(saveWebInfo('general', data))
+        .then((originalPromiseResult) => {
+          reset();
+          enqueueSnackbar(originalPromiseResult.message, { variant: 'success' });
+        })
+        .catch((rejectedValueOrSerializedError) => {
+          enqueueSnackbar(rejectedValueOrSerializedError.message, { variant: 'error' });
+        });
     } catch (error) {
       console.error(error);
     }

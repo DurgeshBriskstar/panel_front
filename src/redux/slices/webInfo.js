@@ -67,7 +67,7 @@ export function saveWebInfo(type, data) {
       }
       const recordId = data?.id || ''
       dispatch(slice.actions.startLoading());
-      const response = await axios.post(`${endPoint}${recordId}`, data);
+      const response = await axios.post(`${endPoint}/${recordId}`, data);
       if (response.status) {
         dispatch(slice.actions.getWebInfoSuccess(response.data));
         return Promise.resolve(response);
