@@ -64,6 +64,10 @@ export const PATH_ADMIN = {
         new: path(ROOTS_ADMIN, '/graphics/add'),
         graphicEdit: (id) => path(ROOTS_ADMIN, `/graphics/edit/${id}`),
     },
+    tool: {
+        root: path(ROOTS_ADMIN, '/tools'),
+        list: path(ROOTS_ADMIN, '/tools/list')
+    },
 };
 
 export const PATH_BRANCH = {

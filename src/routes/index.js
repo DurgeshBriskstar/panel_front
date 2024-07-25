@@ -259,6 +259,23 @@ export default function MainRouter() {
                         },
                     ],
                 },
+                {
+                    path: 'tools',
+                    children: [
+                        {
+                            element: <Navigate to="/admin/tools/list" replace />,
+                            index: true
+                        },
+                        {
+                            path: 'list',
+                            element: (
+                                <RoleBasedGuard accessibleRoles={['admin']}>
+                                    <ADTool />
+                                </RoleBasedGuard>
+                            ),
+                        }
+                    ],
+                },
             ],
         },
 
@@ -428,6 +445,9 @@ const ADSliderForm = Loadable(lazy(() => import('../pages/admin/Slider/SliderAdd
 // GRAPHIC
 const ADGraphic = Loadable(lazy(() => import('../pages/admin/Graphic/GraphicList')));
 const ADGraphicForm = Loadable(lazy(() => import('../pages/admin/Graphic/GraphicAddEdit')));
+
+// TOOLS
+const ADTool = Loadable(lazy(() => import('../pages/admin/Tool/ToolList')));
 
 // BLOG & NEWS
 const ADBlog = Loadable(lazy(() => import('../pages/admin/Blog/BlogList')));

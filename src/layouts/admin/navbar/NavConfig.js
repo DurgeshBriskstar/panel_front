@@ -19,17 +19,18 @@ const navConfig = [
         items: [
             { title: 'dashboard', path: PATH_ADMIN.dashboard, icon: getIcon('mdi:monitor-dashboard') },
             { title: 'users', path: PATH_ADMIN.user.root, icon: getIcon('raphael:users') },
-            {
-                title: 'blog & news',
-                path: PATH_ADMIN.category.root,
-                icon: getIcon('game-icons:newspaper'),
-                children: [
-                    { title: 'Blogs & News', path: PATH_ADMIN.blog.list },
-                    { title: 'Categories', path: PATH_ADMIN.category.list },
-                    { title: 'Sliders', path: PATH_ADMIN.slider.list },
-                    { title: 'Graphics', path: PATH_ADMIN.graphic.list },
-                ],
-            }
+            // {
+            //     title: 'blog & news',
+            //     path: PATH_ADMIN.category.root,
+            //     icon: getIcon('game-icons:newspaper'),
+            //     children: [
+            //         { title: 'Blogs & News', path: PATH_ADMIN.blog.list },
+            //         { title: 'Categories', path: PATH_ADMIN.category.list },
+            //         { title: 'Sliders', path: PATH_ADMIN.slider.list },
+            //         { title: 'Graphics', path: PATH_ADMIN.graphic.list },
+            //     ],
+            // },
+            { title: 'tools', path: PATH_ADMIN.tool.root, icon: getIcon('material-symbols:tools-installation-kit-outline') },
         ],
     },
 ];
